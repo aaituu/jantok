@@ -1,0 +1,16 @@
+{"step":"health/readiness","status":"passed","evidence":"PostgreSQL, Redis and object storage are ready"}
+{"step":"OTP and sessions","status":"passed","evidence":"OTP expiration/attempt state and persisted client/admin sessions used real API"}
+{"step":"family questionnaire","status":"passed","evidence":"Member, validated questionnaire and in-zone address persisted"}
+{"step":"nutrition recommendation","status":"passed","evidence":"30-service-day recommendation calculated from approved demo rules"}
+{"step":"quote and payment","status":"passed","evidence":"Local provider captured once, test receipt created and checkout replay returned the same subscription"}
+{"step":"free meal replacement","status":"passed","evidence":"Safe published breakfast selected with zero replacement charge"}
+{"step":"paid add-on","status":"passed","evidence":"Recurring add-on paid through the payment application service and allocated to 30 service days"}
+{"step":"100 percent bonus payment","status":"passed","evidence":"Standalone add-on paid entirely from immutable welcome-bonus ledger with no cash remainder"}
+{"step":"cut-off finalization","status":"passed","evidence":"Persisted finalization job locked the daily order using the local controlled clock"}
+{"step":"inventory receipt","status":"passed","evidence":"Supplier purchase was received into MAIN storage with weighted cost"}
+{"step":"production and stock consumption","status":"passed","evidence":"Production confirmation consumed stock once; idempotent replay returned the same run"}
+{"step":"packing and label","status":"passed","evidence":"All packing items confirmed, READY reached and a valid PDF label generated"}
+{"step":"delivery dispatch and delivered","status":"passed","evidence":"One scheduled simulator delivery advanced authoritatively to DELIVERED; duplicate callback was ignored"}
+{"step":"review","status":"passed","evidence":"Review accepted only against the delivered owned order line"}
+{"step":"support photo and object persistence","status":"passed","evidence":"Validated PNG stored privately in MinIO and remained present after storage restart"}
+{"step":"refund","status":"passed","evidence":"Within-window unused-service refund succeeded and replay returned the same refund"}

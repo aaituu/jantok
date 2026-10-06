@@ -1,0 +1,40 @@
+services:
+  postgres:
+    ports: !override []
+
+  redis:
+    ports: !override []
+
+  storage:
+    ports: !override []
+
+  backend:
+    environment:
+      APP_ENV: staging
+      DEMO_SEED_ENABLED: "false"
+    ports: !override []
+
+  worker:
+    environment:
+      APP_ENV: staging
+      DEMO_SEED_ENABLED: "false"
+
+  admin:
+    ports: !override []
+
+  nginx:
+    image: nginx:1.27-alpine
+    depends_on:
+      backend:
+        condition: service_healthy
+      admin:
+        condition: service_healthy
+    environment:
+      JANTOK_DOMAIN: ${JANTOK_DOMAIN:?JANTOK_DOMAIN is required}
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./infra/nginx/jantok.conf:/etc/nginx/templates/default.conf.template:ro
+      - ./infra/nginx/tls:/etc/nginx/tls:ro
+    restart: unless-stopped

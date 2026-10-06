@@ -1,0 +1,2689 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserStatus {
+  ACTIVE
+  BLOCKED
+  DELETED
+
+  @@map("user_status")
+}
+
+enum MemberStatus {
+  ACTIVE
+  PAUSED
+  REMOVED
+
+  @@map("member_status")
+}
+
+enum BiologicalSex {
+  FEMALE
+  MALE
+  UNSPECIFIED
+
+  @@map("biological_sex")
+}
+
+enum EmployeeStatus {
+  INVITED
+  ACTIVE
+  SUSPENDED
+
+  @@map("employee_status")
+}
+
+enum OnboardingStep {
+  FAMILY
+  MEMBERS
+  ADDRESS
+  RECOMMENDATIONS
+  COMPLETED
+
+  @@map("onboarding_step")
+}
+
+enum GoalType {
+  LOSE_WEIGHT
+  MAINTAIN
+  GAIN_WEIGHT
+  SPORT
+
+  @@map("goal_type")
+}
+
+enum SportIntensity {
+  NONE
+  LIGHT
+  MODERATE
+  HIGH
+
+  @@map("sport_intensity")
+}
+
+enum PortionPreference {
+  RECOMMENDED
+  SMALL
+  STANDARD
+  LARGE
+
+  @@map("portion_preference")
+}
+
+enum AllergyDeclarationStatus {
+  NOT_ANSWERED
+  NONE
+  DECLARED
+
+  @@map("allergy_declaration_status")
+}
+
+enum PreferenceKind {
+  PREFERRED
+  DISLIKED
+
+  @@map("preference_kind")
+}
+
+enum NutritionRuleStatus {
+  DEMO
+  DRAFT
+  APPROVED
+  RETIRED
+
+  @@map("nutrition_rule_status")
+}
+
+enum AgeGroup {
+  AGE_0_5
+  AGE_6_12
+  AGE_13_17
+  AGE_18_PLUS
+
+  @@map("age_group")
+}
+
+enum MealType {
+  BREAKFAST
+  LUNCH
+  DINNER
+
+  @@map("meal_type")
+}
+
+enum MealSelectionStatus {
+  SAFE
+  CONFLICT
+
+  @@map("meal_selection_status")
+}
+
+enum AllergenRiskType {
+  CONTAINS
+  MAY_CONTAIN
+  CROSS_CONTACT
+
+  @@map("allergen_risk_type")
+}
+
+enum StaffTaskStatus {
+  OPEN
+  RESOLVED
+  CANCELLED
+
+  @@map("staff_task_status")
+}
+
+enum BusinessRuleStatus {
+  DEMO
+  DRAFT
+  ACTIVE
+  RETIRED
+
+  @@map("business_rule_status")
+}
+
+enum MenuPublicationStatus {
+  DRAFT
+  PUBLISHED
+  LOCKED
+
+  @@map("menu_publication_status")
+}
+
+enum QuoteStatus {
+  ACTIVE
+  ACCEPTED
+  EXPIRED
+  CANCELLED
+
+  @@map("quote_status")
+}
+
+enum PurchaseStatus {
+  PENDING
+  COMPLIMENTARY
+  PAID
+  PARTIALLY_REFUNDED
+  REFUNDED
+  FAILED
+  CANCELLED
+
+  @@map("purchase_status")
+}
+
+enum ReviewStatus {
+  PUBLISHED
+  HIDDEN
+  DELETED
+
+  @@map("review_status")
+}
+
+enum SupportReason {
+  NOT_DELIVERED
+  LATE
+  DAMAGED
+  TASTE
+  WRONG_MEAL
+  OTHER
+  POSITIVE_FEEDBACK
+
+  @@map("support_reason")
+}
+
+enum SupportThreadStatus {
+  OPEN
+  WAITING_FOR_CUSTOMER
+  WAITING_FOR_SUPPORT
+  RESOLVED
+  CLOSED
+
+  @@map("support_thread_status")
+}
+
+enum SupportAuthorType {
+  CUSTOMER
+  EMPLOYEE
+  SYSTEM
+
+  @@map("support_author_type")
+}
+
+enum SettingStatus {
+  DEMO
+  DRAFT
+  APPROVED
+  RETIRED
+
+  @@map("setting_status")
+}
+
+enum NotificationTemplateStatus {
+  DEMO
+  DRAFT
+  APPROVED
+  RETIRED
+
+  @@map("notification_template_status")
+}
+
+enum ExportJobStatus {
+  QUEUED
+  PROCESSING
+  COMPLETED
+  FAILED
+  EXPIRED
+
+  @@map("export_job_status")
+}
+
+enum ExportFormat {
+  CSV
+  XLSX
+
+  @@map("export_format")
+}
+
+enum PaymentAttemptStatus {
+  CREATED
+  PENDING
+  REQUIRES_ACTION
+  AUTHORIZED
+  CAPTURED
+  UNKNOWN
+  FAILED
+  CANCELLED
+
+  @@map("payment_attempt_status")
+}
+
+enum RefundStatus {
+  REQUESTED
+  PENDING
+  SUCCEEDED
+  FAILED
+  CANCELLED
+
+  @@map("refund_status")
+}
+
+enum RefundKind {
+  BEFORE_FIRST_DELIVERY
+  UNUSED_WITHIN_WINDOW
+  ADMIN_COMPENSATION
+
+  @@map("refund_kind")
+}
+
+enum ReceiptStatus {
+  EXPECTED
+  PROCESSING
+  ISSUED
+  FAILED
+  REFUND_EXPECTED
+  REFUND_ISSUED
+
+  @@map("receipt_status")
+}
+
+enum ProviderEventStatus {
+  RECEIVED
+  PROCESSED
+  IGNORED
+  FAILED
+
+  @@map("provider_event_status")
+}
+
+enum OutboxStatus {
+  PENDING
+  PROCESSING
+  SENT
+  FAILED
+
+  @@map("outbox_status")
+}
+
+enum DeliveryConfigStatus {
+  DEMO
+  DRAFT
+  ACTIVE
+  RETIRED
+
+  @@map("delivery_config_status")
+}
+
+enum DailyFulfillmentStatus {
+  SCHEDULED
+  LOCKED
+  IN_PRODUCTION
+  COOKED
+  PACKING
+  READY
+  DELIVERY_CREATED
+  COURIER_ASSIGNED
+  COURIER_PICKED_UP
+  ON_THE_WAY
+  ARRIVED
+  DELIVERED
+  SKIPPED
+  CANCELLED
+  DELIVERY_FAILED
+  NO_ANSWER
+
+  @@map("daily_fulfillment_status")
+}
+
+enum DailyFinancialStatus {
+  UNPAID
+  PAID
+  PARTIALLY_REFUNDED
+  REFUNDED
+
+  @@map("daily_financial_status")
+}
+
+enum DeliveryAttemptStatus {
+  CREATE_PENDING
+  CREATED
+  COURIER_ASSIGNED
+  PICKED_UP
+  ON_THE_WAY
+  ARRIVED
+  DELIVERED
+  NO_ANSWER
+  FAILED
+  CANCEL_PENDING
+  CANCELLED
+  UNKNOWN
+
+  @@map("delivery_attempt_status")
+}
+
+enum DeliveryJobStatus {
+  SCHEDULED
+  PROCESSING
+  RETRY
+  COMPLETED
+  FAILED
+  CANCELLED
+
+  @@map("delivery_job_status")
+}
+
+enum InventoryDimension {
+  MASS
+  VOLUME
+  COUNT
+
+  @@map("inventory_dimension")
+}
+
+enum InventoryMovementType {
+  PURCHASE
+  PRODUCTION
+  WASTE
+  CORRECTION
+  RETURN
+  TRANSFER
+
+  @@map("inventory_movement_type")
+}
+
+enum PurchaseOrderStatus {
+  DRAFT
+  ORDERED
+  PARTIALLY_RECEIVED
+  RECEIVED
+  CANCELLED
+
+  @@map("purchase_order_status")
+}
+
+enum ProductionRevisionKind {
+  FORECAST
+  FINAL
+  DELTA
+
+  @@map("production_revision_kind")
+}
+
+enum ProductionRevisionStatus {
+  DRAFT
+  LOCKED
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+
+  @@map("production_revision_status")
+}
+
+enum ProductionLineStatus {
+  PLANNED
+  IN_PROGRESS
+  READY
+  ERROR
+
+  @@map("production_line_status")
+}
+
+enum InventoryReservationStatus {
+  ACTIVE
+  CONSUMED
+  RELEASED
+
+  @@map("inventory_reservation_status")
+}
+
+enum PackingTaskStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETE
+  BLOCKED
+
+  @@map("packing_task_status")
+}
+
+enum PackingItemStatus {
+  PENDING
+  PACKED
+  MISSING
+
+  @@map("packing_item_status")
+}
+
+enum PrintDocumentType {
+  PRODUCTION_LIST
+  PACKING_LIST
+  LABEL
+
+  @@map("print_document_type")
+}
+
+enum RenewalStatus {
+  SCHEDULED
+  NOTICE_SENT
+  PAYMENT_PENDING
+  SUCCEEDED
+  RETRY_SCHEDULED
+  ACTION_REQUIRED
+  CANCELLED
+
+  @@map("renewal_status")
+}
+
+enum BonusEntryType {
+  CREDIT
+  DEBIT
+  RESERVE
+  RELEASE
+  REFUND
+  COMPENSATION
+  REVERSAL
+  LIABILITY
+
+  @@map("bonus_entry_type")
+}
+
+enum BonusReservationStatus {
+  RESERVED
+  CONSUMED
+  RELEASED
+
+  @@map("bonus_reservation_status")
+}
+
+enum PromoMechanic {
+  PERCENT_DISCOUNT
+  FIXED_DISCOUNT
+  BONUS_GRANT
+
+  @@map("promo_mechanic")
+}
+
+enum ReservationStatus {
+  RESERVED
+  CONFIRMED
+  RELEASED
+
+  @@map("reservation_status")
+}
+
+enum ReferralStatus {
+  PENDING
+  QUALIFIED
+  REVERSED
+
+  @@map("referral_status")
+}
+
+enum SubscriptionStatus {
+  PENDING_PAYMENT
+  ACTIVE
+  PAUSED
+  COMPLETED
+  CANCELLED
+
+  @@map("subscription_status")
+}
+
+enum ServiceDayStatus {
+  PLANNED
+  SKIPPED
+  PAUSED
+  DISPATCHED
+  DELIVERED
+  FAILED_HELD
+  CANCELLED
+  COMPENSATED
+
+  @@map("service_day_status")
+}
+
+enum ServiceDayEventType {
+  PLAN
+  RESERVE
+  USE
+  TRANSFER
+  CANCEL
+  COMPENSATE
+
+  @@map("service_day_event_type")
+}
+
+enum SubscriptionChangeType {
+  PERMANENT_MEMBER
+  GUEST_DAYS
+  STANDALONE_ADDON
+
+  @@map("subscription_change_type")
+}
+
+model User {
+  id                     String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  phone                  String                  @unique @db.VarChar(20)
+  firstName              String                  @map("first_name") @db.VarChar(100)
+  lastName               String                  @map("last_name") @db.VarChar(100)
+  status                 UserStatus              @default(ACTIVE)
+  locale                 String                  @default("kk") @db.VarChar(5)
+  createdAt              DateTime                @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt              DateTime                @updatedAt @map("updated_at") @db.Timestamptz(3)
+  deletedAt              DateTime?               @map("deleted_at") @db.Timestamptz(3)
+  version                Int                     @default(0)
+  household              Household?
+  sessions               UserSession[]
+  deviceTokens           DeviceToken[]
+  employee               Employee?
+  mealReviews            MealReview[]
+  referralCode           String?                 @unique @map("referral_code") @db.VarChar(32)
+  referralsSent          Referral[]              @relation("ReferralReferrer")
+  referralInvite         Referral?               @relation("ReferralInvitee")
+  supportThreads         SupportThread[]         @relation("SupportThreadOwner")
+  supportMessages        SupportMessage[]
+  notificationPreference NotificationPreference?
+  notificationOutbox     NotificationOutbox[]
+
+  @@index([status, createdAt])
+  @@map("users")
+}
+
+model OtpChallenge {
+  id            String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  phone         String    @db.VarChar(20)
+  codeHash      String    @map("code_hash") @db.VarChar(128)
+  deviceId      String    @map("device_id") @db.VarChar(128)
+  requestIp     String    @map("request_ip") @db.Inet
+  attempts      Int       @default(0)
+  maxAttempts   Int       @map("max_attempts")
+  expiresAt     DateTime  @map("expires_at") @db.Timestamptz(3)
+  resendAfter   DateTime  @map("resend_after") @db.Timestamptz(3)
+  consumedAt    DateTime? @map("consumed_at") @db.Timestamptz(3)
+  invalidatedAt DateTime? @map("invalidated_at") @db.Timestamptz(3)
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@index([phone, createdAt])
+  @@index([expiresAt, consumedAt])
+  @@map("otp_challenges")
+}
+
+model UserSession {
+  id                String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId            String             @map("user_id") @db.Uuid
+  deviceId          String             @map("device_id") @db.VarChar(128)
+  deviceName        String?            @map("device_name") @db.VarChar(160)
+  refreshTokenHash  String             @unique @map("refresh_token_hash") @db.VarChar(128)
+  refreshVersion    Int                @default(0) @map("refresh_version")
+  userAgent         String?            @map("user_agent") @db.VarChar(512)
+  ipAddress         String?            @map("ip_address") @db.Inet
+  expiresAt         DateTime           @map("expires_at") @db.Timestamptz(3)
+  lastUsedAt        DateTime?          @map("last_used_at") @db.Timestamptz(3)
+  revokedAt         DateTime?          @map("revoked_at") @db.Timestamptz(3)
+  revocationReason  String?            @map("revocation_reason") @db.VarChar(120)
+  createdAt         DateTime           @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt         DateTime           @updatedAt @map("updated_at") @db.Timestamptz(3)
+  user              User               @relation(fields: [userId], references: [id], onDelete: Restrict)
+  deviceTokens      DeviceToken[]
+  usedRefreshTokens UsedRefreshToken[]
+
+  @@index([userId, expiresAt])
+  @@index([userId, deviceId, revokedAt])
+  @@index([expiresAt, revokedAt])
+  @@map("user_sessions")
+}
+
+model UsedRefreshToken {
+  id        String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  sessionId String      @map("session_id") @db.Uuid
+  tokenHash String      @unique @map("token_hash") @db.VarChar(128)
+  usedAt    DateTime    @default(now()) @map("used_at") @db.Timestamptz(3)
+  expiresAt DateTime    @map("expires_at") @db.Timestamptz(3)
+  session   UserSession @relation(fields: [sessionId], references: [id], onDelete: Restrict)
+
+  @@index([expiresAt])
+  @@map("used_refresh_tokens")
+}
+
+model DeviceToken {
+  id             String      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId         String      @map("user_id") @db.Uuid
+  sessionId      String      @map("session_id") @db.Uuid
+  tokenHash      String      @unique @map("token_hash") @db.VarChar(128)
+  encryptedToken String      @map("encrypted_token") @db.VarChar(2048)
+  platform       String      @db.VarChar(16)
+  deviceId       String      @map("device_id") @db.VarChar(128)
+  locale         String      @default("kk") @db.VarChar(5)
+  lastSeenAt     DateTime    @default(now()) @map("last_seen_at") @db.Timestamptz(3)
+  revokedAt      DateTime?   @map("revoked_at") @db.Timestamptz(3)
+  createdAt      DateTime    @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt      DateTime    @updatedAt @map("updated_at") @db.Timestamptz(3)
+  user           User        @relation(fields: [userId], references: [id], onDelete: Restrict)
+  session        UserSession @relation(fields: [sessionId], references: [id], onDelete: Restrict)
+
+  @@unique([sessionId, deviceId])
+  @@index([userId, revokedAt])
+  @@map("device_tokens")
+}
+
+model Household {
+  id                    String                      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  ownerUserId           String                      @unique @map("owner_user_id") @db.Uuid
+  name                  String?                     @db.VarChar(120)
+  timezone              String                      @default("Asia/Almaty") @db.VarChar(64)
+  onboardingStep        OnboardingStep              @default(FAMILY) @map("onboarding_step")
+  onboardingCompletedAt DateTime?                   @map("onboarding_completed_at") @db.Timestamptz(3)
+  createdAt             DateTime                    @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt             DateTime                    @updatedAt @map("updated_at") @db.Timestamptz(3)
+  deletedAt             DateTime?                   @map("deleted_at") @db.Timestamptz(3)
+  version               Int                         @default(0)
+  owner                 User                        @relation(fields: [ownerUserId], references: [id], onDelete: Restrict)
+  members               HouseholdMember[]
+  addresses             HouseholdAddress[]
+  quotes                PriceQuote[]
+  purchases             Purchase[]
+  subscriptions         Subscription[]
+  guests                SubscriptionGuest[]
+  paymentMethods        PaymentMethod[]
+  bonusEntries          BonusLedgerEntry[]
+  bonusReservations     BonusReservation[]
+  promoReservations     PromoReservation[]
+  clubMembership        ClubMembership?
+  recurringAddonPlans   RecurringAddonPlan[]
+  dailyFulfillments     DailyFulfillment[]
+  serviceDayOverrides   ServiceDayAddressOverride[]
+  supportThreads        SupportThread[]
+
+  @@map("households")
+}
+
+model HouseholdAddress {
+  id                   String                      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  householdId          String                      @map("household_id") @db.Uuid
+  label                String                      @default("Дом") @db.VarChar(80)
+  city                 String                      @default("Астана") @db.VarChar(80)
+  streetAddress        String                      @map("street_address") @db.VarChar(240)
+  apartment            String?                     @db.VarChar(32)
+  entrance             String?                     @db.VarChar(32)
+  floor                String?                     @db.VarChar(16)
+  intercom             String?                     @db.VarChar(32)
+  deliveryInstructions String?                     @map("delivery_instructions") @db.VarChar(500)
+  landmarks            String?                     @db.VarChar(500)
+  latitude             Decimal?                    @db.Decimal(9, 6)
+  longitude            Decimal?                    @db.Decimal(9, 6)
+  windowStart          DateTime?                   @map("window_start") @db.Time(0)
+  windowEnd            DateTime?                   @map("window_end") @db.Time(0)
+  isDefault            Boolean                     @default(true) @map("is_default")
+  deliverySlotId       String?                     @map("delivery_slot_id") @db.Uuid
+  version              Int                         @default(0)
+  createdAt            DateTime                    @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt            DateTime                    @updatedAt @map("updated_at") @db.Timestamptz(3)
+  deletedAt            DateTime?                   @map("deleted_at") @db.Timestamptz(3)
+  household            Household                   @relation(fields: [householdId], references: [id], onDelete: Restrict)
+  quotes               PriceQuote[]
+  deliverySlot         DeliverySlot?               @relation(fields: [deliverySlotId], references: [id], onDelete: Restrict)
+  serviceDayOverrides  ServiceDayAddressOverride[]
+
+  @@index([householdId, deletedAt])
+  @@map("household_addresses")
+}
+
+model HouseholdMember {
+  id              String                    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  householdId     String                    @map("household_id") @db.Uuid
+  firstName       String                    @map("first_name") @db.VarChar(100)
+  birthDate       DateTime?                 @map("birth_date") @db.Date
+  status          MemberStatus              @default(ACTIVE)
+  createdAt       DateTime                  @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt       DateTime                  @updatedAt @map("updated_at") @db.Timestamptz(3)
+  deletedAt       DateTime?                 @map("deleted_at") @db.Timestamptz(3)
+  version         Int                       @default(0)
+  household       Household                 @relation(fields: [householdId], references: [id], onDelete: Restrict)
+  profile         MemberProfile?
+  allergies       MemberAllergy[]
+  foodPreferences MemberFoodPreference[]
+  sports          MemberSport[]
+  recommendations NutritionRecommendation[]
+  mealSelections  MemberMealSelection[]
+  staffTasks      StaffTask[]
+  quoteLines      PriceQuoteLine[]
+  participants    SubscriptionParticipant[]
+  dailyOrders     DailyOrder[]
+  changeQuotes    SubscriptionChangeQuote[]
+  mealReviews     MealReview[]
+
+  @@index([householdId, status])
+  @@map("household_members")
+}
+
+model MemberProfile {
+  id                       String                   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  memberId                 String                   @unique @map("member_id") @db.Uuid
+  biologicalSex            BiologicalSex            @default(UNSPECIFIED) @map("biological_sex")
+  heightCm                 Decimal?                 @map("height_cm") @db.Decimal(5, 2)
+  weightKg                 Decimal?                 @map("weight_kg") @db.Decimal(6, 2)
+  activityLevelId          String?                  @map("activity_level_id") @db.Uuid
+  sportIntensity           SportIntensity           @default(NONE) @map("sport_intensity")
+  sportHoursPerWeek        Decimal                  @default(0) @map("sport_hours_per_week") @db.Decimal(4, 1)
+  sportNotes               String?                  @map("sport_notes") @db.VarChar(500)
+  goal                     GoalType?
+  dietTypeId               String?                  @map("diet_type_id") @db.Uuid
+  allergyDeclarationStatus AllergyDeclarationStatus @default(NOT_ANSWERED) @map("allergy_declaration_status")
+  portionPreference        PortionPreference        @default(RECOMMENDED) @map("portion_preference")
+  questionnaireCompletedAt DateTime?                @map("questionnaire_completed_at") @db.Timestamptz(3)
+  notes                    String?                  @db.VarChar(1000)
+  createdAt                DateTime                 @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt                DateTime                 @updatedAt @map("updated_at") @db.Timestamptz(3)
+  version                  Int                      @default(0)
+  member                   HouseholdMember          @relation(fields: [memberId], references: [id], onDelete: Restrict)
+  activityLevel            ActivityLevel?           @relation(fields: [activityLevelId], references: [id], onDelete: Restrict)
+  dietType                 DietType?                @relation(fields: [dietTypeId], references: [id], onDelete: Restrict)
+
+  @@map("member_profiles")
+}
+
+model ActivityLevel {
+  id             String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code           String          @unique @db.VarChar(64)
+  nameKk         String          @map("name_kk") @db.VarChar(120)
+  nameRu         String          @map("name_ru") @db.VarChar(120)
+  nameEn         String          @map("name_en") @db.VarChar(120)
+  sortOrder      Int             @default(0) @map("sort_order")
+  active         Boolean         @default(true)
+  memberProfiles MemberProfile[]
+
+  @@map("activity_levels")
+}
+
+model SportType {
+  id      String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code    String        @unique @db.VarChar(64)
+  nameKk  String        @map("name_kk") @db.VarChar(120)
+  nameRu  String        @map("name_ru") @db.VarChar(120)
+  nameEn  String        @map("name_en") @db.VarChar(120)
+  active  Boolean       @default(true)
+  members MemberSport[]
+
+  @@map("sport_types")
+}
+
+model MemberSport {
+  memberId    String          @map("member_id") @db.Uuid
+  sportTypeId String          @map("sport_type_id") @db.Uuid
+  member      HouseholdMember @relation(fields: [memberId], references: [id], onDelete: Restrict)
+  sportType   SportType       @relation(fields: [sportTypeId], references: [id], onDelete: Restrict)
+
+  @@id([memberId, sportTypeId])
+  @@map("member_sports")
+}
+
+model DietType {
+  id             String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code           String                @unique @db.VarChar(64)
+  nameKk         String                @map("name_kk") @db.VarChar(120)
+  nameRu         String                @map("name_ru") @db.VarChar(120)
+  nameEn         String                @map("name_en") @db.VarChar(120)
+  requiresHalal  Boolean               @default(true) @map("requires_halal")
+  active         Boolean               @default(true)
+  memberProfiles MemberProfile[]
+  excludedTags   DietTypeExcludedTag[]
+
+  @@map("diet_types")
+}
+
+model IngredientTag {
+  id          String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code        String                @unique @db.VarChar(64)
+  ingredients IngredientTagLink[]
+  dietTypes   DietTypeExcludedTag[]
+
+  @@map("ingredient_tags")
+}
+
+model DietTypeExcludedTag {
+  dietTypeId String        @map("diet_type_id") @db.Uuid
+  tagId      String        @map("tag_id") @db.Uuid
+  dietType   DietType      @relation(fields: [dietTypeId], references: [id], onDelete: Restrict)
+  tag        IngredientTag @relation(fields: [tagId], references: [id], onDelete: Restrict)
+
+  @@id([dietTypeId, tagId])
+  @@map("diet_type_excluded_tags")
+}
+
+model Allergen {
+  id              String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code            String               @unique @db.VarChar(64)
+  nameKk          String               @map("name_kk") @db.VarChar(120)
+  nameRu          String               @map("name_ru") @db.VarChar(120)
+  nameEn          String               @map("name_en") @db.VarChar(120)
+  active          Boolean              @default(true)
+  ingredients     IngredientAllergen[]
+  memberAllergies MemberAllergy[]
+  mealRisks       MealAllergenRisk[]
+
+  @@map("allergens")
+}
+
+model MemberAllergy {
+  id             String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  memberId       String          @map("member_id") @db.Uuid
+  allergenId     String?         @map("allergen_id") @db.Uuid
+  freeText       String?         @map("free_text") @db.VarChar(500)
+  requiresReview Boolean         @default(false) @map("requires_review")
+  createdAt      DateTime        @default(now()) @map("created_at") @db.Timestamptz(3)
+  member         HouseholdMember @relation(fields: [memberId], references: [id], onDelete: Restrict)
+  allergen       Allergen?       @relation(fields: [allergenId], references: [id], onDelete: Restrict)
+
+  @@unique([memberId, allergenId])
+  @@index([memberId, requiresReview])
+  @@map("member_allergies")
+}
+
+model Ingredient {
+  id                    String                     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code                  String                     @unique @db.VarChar(64)
+  nameKk                String                     @map("name_kk") @db.VarChar(160)
+  nameRu                String                     @map("name_ru") @db.VarChar(160)
+  nameEn                String                     @map("name_en") @db.VarChar(160)
+  isHalal               Boolean                    @default(true) @map("is_halal")
+  verified              Boolean                    @default(false)
+  allergens             IngredientAllergen[]
+  tags                  IngredientTagLink[]
+  mealIngredients       MealIngredient[]
+  addonIngredients      AddonIngredient[]
+  memberPreferences     MemberFoodPreference[]
+  allowedAdditions      MealAllowedAddition[]
+  caloriesPer100g       Decimal                    @default(0) @map("calories_per_100g") @db.Decimal(9, 3)
+  proteinPer100g        Decimal                    @default(0) @map("protein_per_100g") @db.Decimal(9, 3)
+  fatPer100g            Decimal                    @default(0) @map("fat_per_100g") @db.Decimal(9, 3)
+  carbPer100g           Decimal                    @default(0) @map("carb_per_100g") @db.Decimal(9, 3)
+  inventoryDimension    InventoryDimension         @default(MASS) @map("inventory_dimension")
+  inventoryUnit         String                     @default("g") @map("inventory_unit") @db.VarChar(16)
+  inventoryCategory     String                     @default("OTHER") @map("inventory_category") @db.VarChar(80)
+  densityGramsPerMl     Decimal?                   @map("density_grams_per_ml") @db.Decimal(12, 6)
+  minimumLevel          Decimal                    @default(0) @map("minimum_level") @db.Decimal(16, 3)
+  criticalLevel         Decimal                    @default(0) @map("critical_level") @db.Decimal(16, 3)
+  inventoryBalances     InventoryBalance[]
+  inventoryMovements    InventoryMovement[]
+  purchaseItems         SupplierPurchaseItem[]
+  wasteEntries          WasteEntry[]
+  productionNeeds       ProductionIngredientNeed[]
+  inventoryReservations InventoryReservation[]
+
+  @@map("ingredients")
+}
+
+model IngredientAllergen {
+  ingredientId String     @map("ingredient_id") @db.Uuid
+  allergenId   String     @map("allergen_id") @db.Uuid
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Restrict)
+  allergen     Allergen   @relation(fields: [allergenId], references: [id], onDelete: Restrict)
+
+  @@id([ingredientId, allergenId])
+  @@map("ingredient_allergens")
+}
+
+model IngredientTagLink {
+  ingredientId String        @map("ingredient_id") @db.Uuid
+  tagId        String        @map("tag_id") @db.Uuid
+  ingredient   Ingredient    @relation(fields: [ingredientId], references: [id], onDelete: Restrict)
+  tag          IngredientTag @relation(fields: [tagId], references: [id], onDelete: Restrict)
+
+  @@id([ingredientId, tagId])
+  @@map("ingredient_tag_links")
+}
+
+model MemberFoodPreference {
+  memberId     String          @map("member_id") @db.Uuid
+  ingredientId String          @map("ingredient_id") @db.Uuid
+  kind         PreferenceKind
+  member       HouseholdMember @relation(fields: [memberId], references: [id], onDelete: Restrict)
+  ingredient   Ingredient      @relation(fields: [ingredientId], references: [id], onDelete: Restrict)
+
+  @@id([memberId, ingredientId])
+  @@index([memberId, kind])
+  @@map("member_food_preferences")
+}
+
+model Meal {
+  id                  String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code                String                @unique @db.VarChar(64)
+  mealType            MealType              @map("meal_type")
+  isHalal             Boolean               @default(true) @map("is_halal")
+  compositionVerified Boolean               @default(false) @map("composition_verified")
+  caloriesKcal        Int                   @map("calories_kcal")
+  proteinGrams        Decimal               @map("protein_grams") @db.Decimal(7, 2)
+  fatGrams            Decimal               @map("fat_grams") @db.Decimal(7, 2)
+  carbGrams           Decimal               @map("carb_grams") @db.Decimal(7, 2)
+  active              Boolean               @default(true)
+  ingredients         MealIngredient[]
+  translations        MealTranslation[]
+  allergenRisks       MealAllergenRisk[]
+  selections          MemberMealSelection[]
+  menuOptions         PublishedMenuOption[]
+  allowedAdditions    MealAllowedAddition[]
+  photoUrl            String?               @map("photo_url") @db.VarChar(1000)
+  servingWeightGrams  Decimal               @default(0) @map("serving_weight_grams") @db.Decimal(9, 2)
+  ratingAverage       Decimal               @default(0) @map("rating_average") @db.Decimal(3, 2)
+  ratingCount         Int                   @default(0) @map("rating_count")
+  reviews             MealReview[]
+  recipeVersion       Int                   @default(1) @map("recipe_version")
+  yieldFactor         Decimal               @default(1) @map("yield_factor") @db.Decimal(8, 5)
+  lossFactor          Decimal               @default(0) @map("loss_factor") @db.Decimal(8, 5)
+
+  @@index([mealType, active])
+  @@map("meals")
+}
+
+model MealTranslation {
+  mealId      String  @map("meal_id") @db.Uuid
+  locale      String  @db.VarChar(5)
+  name        String  @db.VarChar(180)
+  description String? @db.VarChar(1000)
+  meal        Meal    @relation(fields: [mealId], references: [id], onDelete: Restrict)
+
+  @@id([mealId, locale])
+  @@map("meal_translations")
+}
+
+model MealIngredient {
+  mealId       String     @map("meal_id") @db.Uuid
+  ingredientId String     @map("ingredient_id") @db.Uuid
+  amount       Decimal    @db.Decimal(12, 3)
+  unit         String     @db.VarChar(24)
+  removable    Boolean    @default(false)
+  meal         Meal       @relation(fields: [mealId], references: [id], onDelete: Restrict)
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Restrict)
+
+  @@id([mealId, ingredientId])
+  @@map("meal_ingredients")
+}
+
+model MealAllergenRisk {
+  mealId     String           @map("meal_id") @db.Uuid
+  allergenId String           @map("allergen_id") @db.Uuid
+  riskType   AllergenRiskType @map("risk_type")
+  meal       Meal             @relation(fields: [mealId], references: [id], onDelete: Restrict)
+  allergen   Allergen         @relation(fields: [allergenId], references: [id], onDelete: Restrict)
+
+  @@id([mealId, allergenId, riskType])
+  @@map("meal_allergen_risks")
+}
+
+model Addon {
+  id                String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code              String                 @unique @db.VarChar(64)
+  nameKk            String                 @map("name_kk") @db.VarChar(160)
+  nameRu            String                 @map("name_ru") @db.VarChar(160)
+  nameEn            String                 @map("name_en") @db.VarChar(160)
+  isHalal           Boolean                @default(true) @map("is_halal")
+  verified          Boolean                @default(false)
+  active            Boolean                @default(true)
+  ingredients       AddonIngredient[]
+  standaloneOrders  StandaloneAddonOrder[]
+  priceKzt          Int                    @default(0) @map("price_kzt")
+  stockUnits        Int                    @default(0) @map("stock_units")
+  categoryId        String?                @map("category_id") @db.Uuid
+  photoUrl          String?                @map("photo_url") @db.VarChar(1000)
+  descriptionKk     String?                @map("description_kk") @db.VarChar(1000)
+  descriptionRu     String?                @map("description_ru") @db.VarChar(1000)
+  descriptionEn     String?                @map("description_en") @db.VarChar(1000)
+  compositionKk     String?                @map("composition_kk") @db.VarChar(1000)
+  compositionRu     String?                @map("composition_ru") @db.VarChar(1000)
+  compositionEn     String?                @map("composition_en") @db.VarChar(1000)
+  unit              String                 @default("piece") @db.VarChar(32)
+  recurringPriceKzt Int?                   @map("recurring_price_kzt")
+  category          AddonCategory?         @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  recurringPlans    RecurringAddonPlan[]
+
+  @@map("addons")
+}
+
+model AddonCategory {
+  id        String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code      String  @unique @db.VarChar(64)
+  nameKk    String  @map("name_kk") @db.VarChar(160)
+  nameRu    String  @map("name_ru") @db.VarChar(160)
+  nameEn    String  @map("name_en") @db.VarChar(160)
+  sortOrder Int     @default(0) @map("sort_order")
+  active    Boolean @default(true)
+  addons    Addon[]
+
+  @@map("addon_categories")
+}
+
+model AddonIngredient {
+  addonId      String     @map("addon_id") @db.Uuid
+  ingredientId String     @map("ingredient_id") @db.Uuid
+  amount       Decimal    @db.Decimal(12, 3)
+  unit         String     @db.VarChar(24)
+  addon        Addon      @relation(fields: [addonId], references: [id], onDelete: Restrict)
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Restrict)
+
+  @@id([addonId, ingredientId])
+  @@map("addon_ingredients")
+}
+
+model NutritionRuleSet {
+  id              String                    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  version         Int                       @unique
+  status          NutritionRuleStatus       @default(DRAFT)
+  ageGroup        AgeGroup?                 @map("age_group")
+  effectiveFrom   DateTime?                 @map("effective_from") @db.Timestamptz(3)
+  effectiveTo     DateTime?                 @map("effective_to") @db.Timestamptz(3)
+  disclaimerKk    String                    @map("disclaimer_kk") @db.VarChar(500)
+  disclaimerRu    String                    @map("disclaimer_ru") @db.VarChar(500)
+  disclaimerEn    String                    @map("disclaimer_en") @db.VarChar(500)
+  createdAt       DateTime                  @default(now()) @map("created_at") @db.Timestamptz(3)
+  coefficients    NutritionCoefficient[]
+  recommendations NutritionRecommendation[]
+
+  @@index([status, ageGroup, effectiveFrom])
+  @@map("nutrition_rule_sets")
+}
+
+model NutritionCoefficient {
+  id        String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  ruleSetId String           @map("rule_set_id") @db.Uuid
+  key       String           @db.VarChar(80)
+  value     Decimal          @db.Decimal(14, 6)
+  ruleSet   NutritionRuleSet @relation(fields: [ruleSetId], references: [id], onDelete: Restrict)
+
+  @@unique([ruleSetId, key])
+  @@map("nutrition_coefficients")
+}
+
+model NutritionRecommendation {
+  id                   String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  memberId             String            @map("member_id") @db.Uuid
+  ruleSetId            String            @map("rule_set_id") @db.Uuid
+  serviceStartDate     DateTime          @map("service_start_date") @db.Date
+  ageGroupSnapshot     AgeGroup          @map("age_group_snapshot")
+  inputSnapshot        Json              @map("input_snapshot")
+  caloriesKcal         Int               @map("calories_kcal")
+  proteinGrams         Decimal           @map("protein_grams") @db.Decimal(7, 2)
+  fatGrams             Decimal           @map("fat_grams") @db.Decimal(7, 2)
+  carbGrams            Decimal           @map("carb_grams") @db.Decimal(7, 2)
+  recommendedPortion   PortionPreference @map("recommended_portion")
+  allowedMealIds       Json              @map("allowed_meal_ids")
+  blockedMeals         Json              @map("blocked_meals")
+  menuProposal         Json              @map("menu_proposal")
+  requiresManualReview Boolean           @default(false) @map("requires_manual_review")
+  createdAt            DateTime          @default(now()) @map("created_at") @db.Timestamptz(3)
+  member               HouseholdMember   @relation(fields: [memberId], references: [id], onDelete: Restrict)
+  ruleSet              NutritionRuleSet  @relation(fields: [ruleSetId], references: [id], onDelete: Restrict)
+
+  @@index([memberId, createdAt])
+  @@map("nutrition_recommendations")
+}
+
+model MemberMealSelection {
+  id                   String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  memberId             String               @map("member_id") @db.Uuid
+  mealId               String               @map("meal_id") @db.Uuid
+  serviceDate          DateTime             @map("service_date") @db.Date
+  mealType             MealType             @map("meal_type")
+  removedIngredientIds Json                 @map("removed_ingredient_ids")
+  addedIngredientIds   Json                 @map("added_ingredient_ids")
+  addonIds             Json                 @map("addon_ids")
+  status               MealSelectionStatus  @default(SAFE)
+  safetySnapshot       Json                 @map("safety_snapshot")
+  createdAt            DateTime             @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt            DateTime             @updatedAt @map("updated_at") @db.Timestamptz(3)
+  version              Int                  @default(0)
+  member               HouseholdMember      @relation(fields: [memberId], references: [id], onDelete: Restrict)
+  meal                 Meal                 @relation(fields: [mealId], references: [id], onDelete: Restrict)
+  staffTasks           StaffTask[]
+  menuOptionId         String?              @map("menu_option_id") @db.Uuid
+  recipeSnapshot       Json?                @map("recipe_snapshot")
+  nutritionSnapshot    Json?                @map("nutrition_snapshot")
+  priceSnapshot        Json?                @map("price_snapshot")
+  menuOption           PublishedMenuOption? @relation(fields: [menuOptionId], references: [id], onDelete: Restrict)
+
+  @@unique([memberId, serviceDate, mealType])
+  @@index([serviceDate, status])
+  @@map("member_meal_selections")
+}
+
+model Employee {
+  id                 String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  phone              String             @unique @db.VarChar(20)
+  userId             String?            @unique @map("user_id") @db.Uuid
+  status             EmployeeStatus     @default(INVITED)
+  createdAt          DateTime           @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt          DateTime           @updatedAt @map("updated_at") @db.Timestamptz(3)
+  user               User?              @relation(fields: [userId], references: [id], onDelete: Restrict)
+  roles              EmployeeRole[]
+  supportAssignments SupportThread[]    @relation("SupportAssignee")
+  supportMessages    SupportMessage[]
+  reviewModerations  ReviewModeration[]
+  exportJobs         ExportJob[]
+
+  @@map("employees")
+}
+
+model Role {
+  id          String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code        String           @unique @db.VarChar(64)
+  name        String           @db.VarChar(120)
+  system      Boolean          @default(true)
+  employees   EmployeeRole[]
+  permissions RolePermission[]
+
+  @@map("roles")
+}
+
+model Permission {
+  id    String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code  String           @unique @db.VarChar(96)
+  roles RolePermission[]
+
+  @@map("permissions")
+}
+
+model EmployeeRole {
+  employeeId String   @map("employee_id") @db.Uuid
+  roleId     String   @map("role_id") @db.Uuid
+  assignedAt DateTime @default(now()) @map("assigned_at") @db.Timestamptz(3)
+  employee   Employee @relation(fields: [employeeId], references: [id], onDelete: Restrict)
+  role       Role     @relation(fields: [roleId], references: [id], onDelete: Restrict)
+
+  @@id([employeeId, roleId])
+  @@map("employee_roles")
+}
+
+model RolePermission {
+  roleId       String     @map("role_id") @db.Uuid
+  permissionId String     @map("permission_id") @db.Uuid
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Restrict)
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Restrict)
+
+  @@id([roleId, permissionId])
+  @@map("role_permissions")
+}
+
+model AuditLog {
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  actorUserId     String?  @map("actor_user_id") @db.Uuid
+  actorEmployeeId String?  @map("actor_employee_id") @db.Uuid
+  action          String   @db.VarChar(120)
+  entityType      String   @map("entity_type") @db.VarChar(80)
+  entityId        String?  @map("entity_id") @db.Uuid
+  oldValues       Json?    @map("old_values")
+  newValues       Json?    @map("new_values")
+  reason          String?  @db.VarChar(500)
+  requestId       String   @map("request_id") @db.VarChar(80)
+  occurredAt      DateTime @default(now()) @map("occurred_at") @db.Timestamptz(3)
+
+  @@index([entityType, entityId, occurredAt])
+  @@index([actorEmployeeId, occurredAt])
+  @@map("audit_logs")
+}
+
+model StaffTask {
+  id          String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  type        String               @db.VarChar(80)
+  status      StaffTaskStatus      @default(OPEN)
+  memberId    String?              @map("member_id") @db.Uuid
+  selectionId String?              @map("selection_id") @db.Uuid
+  details     Json
+  createdAt   DateTime             @default(now()) @map("created_at") @db.Timestamptz(3)
+  resolvedAt  DateTime?            @map("resolved_at") @db.Timestamptz(3)
+  member      HouseholdMember?     @relation(fields: [memberId], references: [id], onDelete: Restrict)
+  selection   MemberMealSelection? @relation(fields: [selectionId], references: [id], onDelete: Restrict)
+
+  @@index([status, type, createdAt])
+  @@index([memberId, status])
+  @@map("staff_tasks")
+}
+
+model CutoffPolicy {
+  id                     String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  version                Int                @unique
+  status                 BusinessRuleStatus @default(DRAFT)
+  timezone               String             @default("Asia/Almaty") @db.VarChar(64)
+  menuMinutes            Int                @default(780) @map("menu_minutes")
+  paymentMinutes         Int                @default(780) @map("payment_minutes")
+  skipMinutes            Int                @default(840) @map("skip_minutes")
+  addressMinutes         Int                @default(840) @map("address_minutes")
+  deliveryMinutes        Int                @default(840) @map("delivery_minutes")
+  standaloneAddonMinutes Int                @default(900) @map("standalone_addon_minutes")
+  kitchenLockMinutes     Int                @default(905) @map("kitchen_lock_minutes")
+  serviceDaysPerCycle    Int                @default(30) @map("service_days_per_cycle")
+  maxPauseCalendarDays   Int                @default(30) @map("max_pause_calendar_days")
+  effectiveFrom          DateTime?          @map("effective_from") @db.Timestamptz(3)
+  createdAt              DateTime           @default(now()) @map("created_at") @db.Timestamptz(3)
+  subscriptions          Subscription[]
+
+  @@index([status, effectiveFrom])
+  @@map("cutoff_policies")
+}
+
+model PricingRuleSet {
+  id                      String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  version                 Int                @unique
+  status                  BusinessRuleStatus @default(DRAFT)
+  currency                String             @default("KZT") @db.Char(3)
+  adultMonthlyKzt         Int                @map("adult_monthly_kzt")
+  teenMonthlyKzt          Int                @map("teen_monthly_kzt")
+  childMonthlyKzt         Int                @map("child_monthly_kzt")
+  infantMonthlyKzt        Int                @map("infant_monthly_kzt")
+  secondMemberDiscountBps Int                @default(0) @map("second_member_discount_bps")
+  thirdPlusDiscountBps    Int                @default(0) @map("third_plus_discount_bps")
+  guestDayKzt             Int                @map("guest_day_kzt")
+  effectiveFrom           DateTime?          @map("effective_from") @db.Timestamptz(3)
+  createdAt               DateTime           @default(now()) @map("created_at") @db.Timestamptz(3)
+  quotes                  PriceQuote[]
+
+  @@index([status, effectiveFrom])
+  @@map("pricing_rule_sets")
+}
+
+model MenuPublication {
+  id          String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  serviceDate DateTime              @unique @map("service_date") @db.Date
+  status      MenuPublicationStatus @default(DRAFT)
+  publishedAt DateTime?             @map("published_at") @db.Timestamptz(3)
+  lockedAt    DateTime?             @map("locked_at") @db.Timestamptz(3)
+  createdAt   DateTime              @default(now()) @map("created_at") @db.Timestamptz(3)
+  options     PublishedMenuOption[]
+
+  @@index([status, serviceDate])
+  @@map("menu_publications")
+}
+
+model PublishedMenuOption {
+  id            String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  publicationId String                @map("publication_id") @db.Uuid
+  mealId        String                @map("meal_id") @db.Uuid
+  mealType      MealType              @map("meal_type")
+  recommended   Boolean               @default(false)
+  sortOrder     Int                   @default(0) @map("sort_order")
+  publication   MenuPublication       @relation(fields: [publicationId], references: [id], onDelete: Restrict)
+  meal          Meal                  @relation(fields: [mealId], references: [id], onDelete: Restrict)
+  selections    MemberMealSelection[]
+
+  @@unique([publicationId, mealType, mealId])
+  @@index([publicationId, mealType, recommended])
+  @@map("published_menu_options")
+}
+
+model MealAllowedAddition {
+  mealId       String     @map("meal_id") @db.Uuid
+  ingredientId String     @map("ingredient_id") @db.Uuid
+  amountGrams  Decimal    @map("amount_grams") @db.Decimal(9, 3)
+  priceKzt     Int        @map("price_kzt")
+  stockUnits   Int        @map("stock_units")
+  active       Boolean    @default(true)
+  meal         Meal       @relation(fields: [mealId], references: [id], onDelete: Restrict)
+  ingredient   Ingredient @relation(fields: [ingredientId], references: [id], onDelete: Restrict)
+
+  @@id([mealId, ingredientId])
+  @@map("meal_allowed_additions")
+}
+
+model PriceQuote {
+  id                String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  householdId       String            @map("household_id") @db.Uuid
+  addressId         String            @map("address_id") @db.Uuid
+  pricingRuleSetId  String            @map("pricing_rule_set_id") @db.Uuid
+  startDate         DateTime          @map("start_date") @db.Date
+  serviceDayCount   Int               @default(30) @map("service_day_count")
+  subtotalKzt       Int               @map("subtotal_kzt")
+  discountKzt       Int               @map("discount_kzt")
+  bonusKzt          Int               @map("bonus_kzt")
+  cashKzt           Int               @map("cash_kzt")
+  currency          String            @default("KZT") @db.Char(3)
+  inputSnapshot     Json              @map("input_snapshot")
+  breakdownSnapshot Json              @map("breakdown_snapshot")
+  status            QuoteStatus       @default(ACTIVE)
+  expiresAt         DateTime          @map("expires_at") @db.Timestamptz(3)
+  createdAt         DateTime          @default(now()) @map("created_at") @db.Timestamptz(3)
+  household         Household         @relation(fields: [householdId], references: [id], onDelete: Restrict)
+  address           HouseholdAddress  @relation(fields: [addressId], references: [id], onDelete: Restrict)
+  pricingRuleSet    PricingRuleSet    @relation(fields: [pricingRuleSetId], references: [id], onDelete: Restrict)
+  lines             PriceQuoteLine[]
+  purchase          Purchase?
+  promoReservation  PromoReservation?
+  bonusReservation  BonusReservation?
+
+  @@index([householdId, status, expiresAt])
+  @@map("price_quotes")
+}
+
+model PriceQuoteLine {
+  id          String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  quoteId     String           @map("quote_id") @db.Uuid
+  memberId    String?          @map("member_id") @db.Uuid
+  kind        String           @db.VarChar(40)
+  description String           @db.VarChar(240)
+  quantity    Int              @default(1)
+  unitKzt     Int              @map("unit_kzt")
+  totalKzt    Int              @map("total_kzt")
+  serviceDate DateTime?        @map("service_date") @db.Date
+  details     Json
+  quote       PriceQuote       @relation(fields: [quoteId], references: [id], onDelete: Restrict)
+  member      HouseholdMember? @relation(fields: [memberId], references: [id], onDelete: Restrict)
+
+  @@index([quoteId, kind])
+  @@map("price_quote_lines")
+}
+
+model Purchase {
+  id                      String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  householdId             String             @map("household_id") @db.Uuid
+  quoteId                 String             @unique @map("quote_id") @db.Uuid
+  idempotencyKey          String             @unique @map("idempotency_key") @db.VarChar(128)
+  status                  PurchaseStatus     @default(PENDING)
+  cashKzt                 Int                @map("cash_kzt")
+  bonusKzt                Int                @map("bonus_kzt")
+  paidAt                  DateTime?          @map("paid_at") @db.Timestamptz(3)
+  renewalOfSubscriptionId String?            @map("renewal_of_subscription_id") @db.Uuid
+  createdAt               DateTime           @default(now()) @map("created_at") @db.Timestamptz(3)
+  household               Household          @relation(fields: [householdId], references: [id], onDelete: Restrict)
+  quote                   PriceQuote         @relation(fields: [quoteId], references: [id], onDelete: Restrict)
+  attempts                PaymentAttempt[]
+  subscription            Subscription?      @relation("InitialPurchase")
+  renewalOfSubscription   Subscription?      @relation("RenewalPurchases", fields: [renewalOfSubscriptionId], references: [id], onDelete: Restrict)
+  refunds                 Refund[]
+  receipts                Receipt[]
+  bonusEntries            BonusLedgerEntry[]
+  promoReservation        PromoReservation?
+  bonusReservation        BonusReservation?
+  qualifiedReferral       Referral?
+
+  @@index([householdId, status])
+  @@index([renewalOfSubscriptionId, status])
+  @@map("purchases")
+}
+
+model PaymentAttempt {
+  id                String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  purchaseId        String               @map("purchase_id") @db.Uuid
+  idempotencyKey    String               @unique @map("idempotency_key") @db.VarChar(128)
+  provider          String               @db.VarChar(40)
+  providerReference String?              @unique @map("provider_reference") @db.VarChar(160)
+  providerEventTime DateTime?            @map("provider_event_time") @db.Timestamptz(3)
+  paymentMethodId   String?              @map("payment_method_id") @db.Uuid
+  amountKzt         Int                  @map("amount_kzt")
+  status            PaymentAttemptStatus @default(CREATED)
+  authoritativeAt   DateTime?            @map("authoritative_at") @db.Timestamptz(3)
+  responseSnapshot  Json?                @map("response_snapshot")
+  createdAt         DateTime             @default(now()) @map("created_at") @db.Timestamptz(3)
+  purchase          Purchase             @relation(fields: [purchaseId], references: [id], onDelete: Restrict)
+  paymentMethod     PaymentMethod?       @relation(fields: [paymentMethodId], references: [id], onDelete: Restrict)
+  refunds           Refund[]
+
+  @@index([purchaseId, status])
+  @@map("payment_attempts")
+}
+
+model Subscription {
+  id                    String                      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  householdId           String                      @map("household_id") @db.Uuid
+  purchaseId            String                      @unique @map("purchase_id") @db.Uuid
+  cutoffPolicyId        String                      @map("cutoff_policy_id") @db.Uuid
+  status                SubscriptionStatus          @default(PENDING_PAYMENT)
+  startDate             DateTime                    @map("start_date") @db.Date
+  currentEndDate        DateTime                    @map("current_end_date") @db.Date
+  paidServiceDays       Int                         @default(30) @map("paid_service_days")
+  autoRenew             Boolean                     @default(false) @map("auto_renew")
+  pricingSnapshot       Json                        @map("pricing_snapshot")
+  cutoffSnapshot        Json                        @map("cutoff_snapshot")
+  createdAt             DateTime                    @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt             DateTime                    @updatedAt @map("updated_at") @db.Timestamptz(3)
+  household             Household                   @relation(fields: [householdId], references: [id], onDelete: Restrict)
+  purchase              Purchase                    @relation("InitialPurchase", fields: [purchaseId], references: [id], onDelete: Restrict)
+  renewalPurchases      Purchase[]                  @relation("RenewalPurchases")
+  cutoffPolicy          CutoffPolicy                @relation(fields: [cutoffPolicyId], references: [id], onDelete: Restrict)
+  participants          SubscriptionParticipant[]
+  serviceDays           SubscriptionServiceDay[]
+  pauses                SubscriptionPause[]
+  dailyOrders           DailyOrder[]
+  changeQuotes          SubscriptionChangeQuote[]
+  standaloneAddonOrders StandaloneAddonOrder[]
+  renewalJobs           RenewalJob[]
+  recurringAddonPlans   RecurringAddonPlan[]
+  dailyFulfillments     DailyFulfillment[]
+  serviceDayOverrides   ServiceDayAddressOverride[]
+
+  @@index([householdId, status])
+  @@map("subscriptions")
+}
+
+model SubscriptionGuest {
+  id                String                    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  householdId       String                    @map("household_id") @db.Uuid
+  displayName       String                    @map("display_name") @db.VarChar(120)
+  nutritionSnapshot Json                      @map("nutrition_snapshot")
+  allergySnapshot   Json                      @map("allergy_snapshot")
+  createdAt         DateTime                  @default(now()) @map("created_at") @db.Timestamptz(3)
+  household         Household                 @relation(fields: [householdId], references: [id], onDelete: Restrict)
+  participants      SubscriptionParticipant[]
+  changeQuotes      SubscriptionChangeQuote[]
+
+  @@index([householdId, createdAt])
+  @@map("subscription_guests")
+}
+
+model SubscriptionParticipant {
+  id                    String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  subscriptionId        String                 @map("subscription_id") @db.Uuid
+  memberId              String?                @map("member_id") @db.Uuid
+  guestId               String?                @map("guest_id") @db.Uuid
+  activeFrom            DateTime               @map("active_from") @db.Date
+  activeTo              DateTime               @map("active_to") @db.Date
+  priceKzt              Int                    @map("price_kzt")
+  pricingSnapshot       Json                   @map("pricing_snapshot")
+  subscription          Subscription           @relation(fields: [subscriptionId], references: [id], onDelete: Restrict)
+  member                HouseholdMember?       @relation(fields: [memberId], references: [id], onDelete: Restrict)
+  guest                 SubscriptionGuest?     @relation(fields: [guestId], references: [id], onDelete: Restrict)
+  dailyOrders           DailyOrder[]
+  standaloneAddonOrders StandaloneAddonOrder[]
+  recurringAddonPlans   RecurringAddonPlan[]
+
+  @@unique([subscriptionId, memberId])
+  @@unique([subscriptionId, guestId])
+  @@map("subscription_participants")
+}
+
+model SubscriptionServiceDay {
+  id                        String                     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  subscriptionId            String                     @map("subscription_id") @db.Uuid
+  serviceDate               DateTime                   @map("service_date") @db.Date
+  sequence                  Int
+  status                    ServiceDayStatus           @default(PLANNED)
+  transferredFrom           DateTime?                  @map("transferred_from") @db.Date
+  version                   Int                        @default(0)
+  subscription              Subscription               @relation(fields: [subscriptionId], references: [id], onDelete: Restrict)
+  events                    ServiceDayEvent[]
+  orders                    DailyOrder[]
+  standaloneAddonOrders     StandaloneAddonOrder[]
+  recurringAddonAllocations RecurringAddonAllocation[]
+  dailyFulfillment          DailyFulfillment?
+  addressOverride           ServiceDayAddressOverride?
+
+  @@unique([subscriptionId, serviceDate])
+  @@unique([subscriptionId, sequence])
+  @@index([serviceDate, status])
+  @@map("subscription_service_days")
+}
+
+model ServiceDayEvent {
+  id             String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  serviceDayId   String                 @map("service_day_id") @db.Uuid
+  type           ServiceDayEventType
+  idempotencyKey String                 @unique @map("idempotency_key") @db.VarChar(128)
+  fromDate       DateTime?              @map("from_date") @db.Date
+  toDate         DateTime?              @map("to_date") @db.Date
+  reason         String?                @db.VarChar(500)
+  actorUserId    String?                @map("actor_user_id") @db.Uuid
+  createdAt      DateTime               @default(now()) @map("created_at") @db.Timestamptz(3)
+  serviceDay     SubscriptionServiceDay @relation(fields: [serviceDayId], references: [id], onDelete: Restrict)
+
+  @@index([serviceDayId, createdAt])
+  @@map("service_day_events")
+}
+
+model SubscriptionPause {
+  id             String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  subscriptionId String       @map("subscription_id") @db.Uuid
+  startDate      DateTime     @map("start_date") @db.Date
+  endDate        DateTime     @map("end_date") @db.Date
+  calendarDays   Int          @map("calendar_days")
+  idempotencyKey String       @unique @map("idempotency_key") @db.VarChar(128)
+  createdAt      DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+  subscription   Subscription @relation(fields: [subscriptionId], references: [id], onDelete: Restrict)
+
+  @@index([subscriptionId, startDate, endDate])
+  @@map("subscription_pauses")
+}
+
+model DailyOrder {
+  id                 String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  subscriptionId     String                  @map("subscription_id") @db.Uuid
+  serviceDayId       String                  @map("service_day_id") @db.Uuid
+  memberId           String?                 @map("member_id") @db.Uuid
+  participantId      String                  @map("participant_id") @db.Uuid
+  serviceDate        DateTime                @map("service_date") @db.Date
+  addressSnapshot    Json                    @map("address_snapshot")
+  status             String                  @default("PLANNED") @db.VarChar(32)
+  createdAt          DateTime                @default(now()) @map("created_at") @db.Timestamptz(3)
+  subscription       Subscription            @relation(fields: [subscriptionId], references: [id], onDelete: Restrict)
+  serviceDay         SubscriptionServiceDay  @relation(fields: [serviceDayId], references: [id], onDelete: Restrict)
+  member             HouseholdMember?        @relation(fields: [memberId], references: [id], onDelete: Restrict)
+  participant        SubscriptionParticipant @relation(fields: [participantId], references: [id], onDelete: Restrict)
+  lines              DailyOrderLine[]
+  dailyFulfillmentId String?                 @map("daily_fulfillment_id") @db.Uuid
+  dailyFulfillment   DailyFulfillment?       @relation(fields: [dailyFulfillmentId], references: [id], onDelete: Restrict)
+
+  @@unique([serviceDayId, participantId])
+  @@index([serviceDate, status])
+  @@map("daily_orders")
+}
+
+model DeliverySettings {
+  id                     String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  version                Int                  @unique
+  status                 DeliveryConfigStatus @default(DRAFT)
+  businessTimezone       String               @default("Asia/Almaty") @map("business_timezone") @db.VarChar(64)
+  maxSavedAddresses      Int                  @default(5) @map("max_saved_addresses")
+  dispatchLeadMinutes    Int                  @default(45) @map("dispatch_lead_minutes")
+  maxCreateRetries       Int                  @default(3) @map("max_create_retries")
+  retryBaseSeconds       Int                  @default(60) @map("retry_base_seconds")
+  pollingIntervalSeconds Int                  @default(60) @map("polling_interval_seconds")
+  providerMode           String               @default("LOCAL_SIMULATOR") @map("provider_mode") @db.VarChar(40)
+  contractCountry        String               @default("KZ") @map("contract_country") @db.VarChar(2)
+  callbackEnabled        Boolean              @default(false) @map("callback_enabled")
+  courierPhoneEnabled    Boolean              @default(false) @map("courier_phone_enabled")
+  courierLocationEnabled Boolean              @default(false) @map("courier_location_enabled")
+  trackingLinkEnabled    Boolean              @default(false) @map("tracking_link_enabled")
+  etaEnabled             Boolean              @default(false) @map("eta_enabled")
+  createdAt              DateTime             @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@map("delivery_settings")
+}
+
+model DeliveryZone {
+  id          String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code        String               @unique @db.VarChar(64)
+  name        String               @db.VarChar(160)
+  status      DeliveryConfigStatus @default(DRAFT)
+  geometry    Json
+  version     Int
+  confirmedAt DateTime?            @map("confirmed_at") @db.Timestamptz(3)
+  createdAt   DateTime             @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@unique([version, status])
+  @@map("delivery_zones")
+}
+
+model DeliverySlot {
+  id           String                      @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code         String                      @unique @db.VarChar(40)
+  name         String                      @db.VarChar(80)
+  startMinutes Int                         @map("start_minutes")
+  endMinutes   Int                         @map("end_minutes")
+  status       DeliveryConfigStatus        @default(DRAFT)
+  sortOrder    Int                         @default(0) @map("sort_order")
+  addresses    HouseholdAddress[]
+  overrides    ServiceDayAddressOverride[]
+
+  @@map("delivery_slots")
+}
+
+model ServiceDayAddressOverride {
+  id              String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  householdId     String                 @map("household_id") @db.Uuid
+  subscriptionId  String                 @map("subscription_id") @db.Uuid
+  serviceDayId    String                 @unique @map("service_day_id") @db.Uuid
+  addressId       String                 @map("address_id") @db.Uuid
+  deliverySlotId  String                 @map("delivery_slot_id") @db.Uuid
+  addressSnapshot Json                   @map("address_snapshot")
+  slotSnapshot    Json                   @map("slot_snapshot")
+  version         Int                    @default(0)
+  createdAt       DateTime               @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt       DateTime               @updatedAt @map("updated_at") @db.Timestamptz(3)
+  household       Household              @relation(fields: [householdId], references: [id], onDelete: Restrict)
+  subscription    Subscription           @relation(fields: [subscriptionId], references: [id], onDelete: Restrict)
+  serviceDay      SubscriptionServiceDay @relation(fields: [serviceDayId], references: [id], onDelete: Restrict)
+  address         HouseholdAddress       @relation(fields: [addressId], references: [id], onDelete: Restrict)
+  deliverySlot    DeliverySlot           @relation(fields: [deliverySlotId], references: [id], onDelete: Restrict)
+
+  @@index([householdId, createdAt])
+  @@map("service_day_address_overrides")
+}
+
+model DailyFulfillment {
+  id               String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  householdId      String                  @map("household_id") @db.Uuid
+  subscriptionId   String                  @map("subscription_id") @db.Uuid
+  serviceDayId     String                  @unique @map("service_day_id") @db.Uuid
+  serviceDate      DateTime                @map("service_date") @db.Date
+  addressSnapshot  Json                    @map("address_snapshot")
+  slotSnapshot     Json                    @map("slot_snapshot")
+  dispatchAt       DateTime                @map("dispatch_at") @db.Timestamptz(3)
+  status           DailyFulfillmentStatus  @default(SCHEDULED)
+  financialStatus  DailyFinancialStatus    @default(PAID) @map("financial_status")
+  version          Int                     @default(0)
+  createdAt        DateTime                @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt        DateTime                @updatedAt @map("updated_at") @db.Timestamptz(3)
+  household        Household               @relation(fields: [householdId], references: [id], onDelete: Restrict)
+  subscription     Subscription            @relation(fields: [subscriptionId], references: [id], onDelete: Restrict)
+  serviceDay       SubscriptionServiceDay  @relation(fields: [serviceDayId], references: [id], onDelete: Restrict)
+  mealOrders       DailyOrder[]
+  events           DailyFulfillmentEvent[]
+  deliveryAttempts DeliveryAttempt[]
+  deliveryJob      DeliveryJob?
+  packingTasks     PackingTask[]
+  supportThreads   SupportThread[]
+
+  @@index([serviceDate, status])
+  @@map("daily_fulfillments")
+}
+
+model DailyFulfillmentEvent {
+  id             String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  fulfillmentId  String                  @map("fulfillment_id") @db.Uuid
+  idempotencyKey String                  @unique @map("idempotency_key") @db.VarChar(160)
+  type           String                  @db.VarChar(64)
+  fromStatus     DailyFulfillmentStatus? @map("from_status")
+  toStatus       DailyFulfillmentStatus? @map("to_status")
+  actorType      String                  @map("actor_type") @db.VarChar(24)
+  actorUserId    String?                 @map("actor_user_id") @db.Uuid
+  reason         String?                 @db.VarChar(500)
+  details        Json?
+  createdAt      DateTime                @default(now()) @map("created_at") @db.Timestamptz(3)
+  fulfillment    DailyFulfillment        @relation(fields: [fulfillmentId], references: [id], onDelete: Restrict)
+
+  @@index([fulfillmentId, createdAt])
+  @@map("daily_fulfillment_events")
+}
+
+model DeliveryAttempt {
+  id                String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  fulfillmentId     String                  @map("fulfillment_id") @db.Uuid
+  attemptNumber     Int                     @map("attempt_number")
+  provider          String                  @db.VarChar(40)
+  idempotencyKey    String                  @unique @map("idempotency_key") @db.VarChar(160)
+  providerReference String?                 @unique @map("provider_reference") @db.VarChar(160)
+  status            DeliveryAttemptStatus   @default(CREATE_PENDING)
+  providerStatus    String?                 @map("provider_status") @db.VarChar(80)
+  providerUpdatedAt DateTime?               @map("provider_updated_at") @db.Timestamptz(3)
+  courierSnapshot   Json?                   @map("courier_snapshot")
+  trackingSnapshot  Json?                   @map("tracking_snapshot")
+  etaSnapshot       Json?                   @map("eta_snapshot")
+  requestSnapshot   Json                    @map("request_snapshot")
+  responseSnapshot  Json?                   @map("response_snapshot")
+  terminalAt        DateTime?               @map("terminal_at") @db.Timestamptz(3)
+  createdAt         DateTime                @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt         DateTime                @updatedAt @map("updated_at") @db.Timestamptz(3)
+  fulfillment       DailyFulfillment        @relation(fields: [fulfillmentId], references: [id], onDelete: Restrict)
+  providerEvents    DeliveryProviderEvent[]
+
+  @@unique([fulfillmentId, attemptNumber])
+  @@index([fulfillmentId, status])
+  @@map("delivery_attempts")
+}
+
+model DeliveryProviderEvent {
+  id                String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  deliveryAttemptId String          @map("delivery_attempt_id") @db.Uuid
+  provider          String          @db.VarChar(40)
+  providerEventId   String          @map("provider_event_id") @db.VarChar(200)
+  providerStatus    String          @map("provider_status") @db.VarChar(80)
+  providerUpdatedAt DateTime        @map("provider_updated_at") @db.Timestamptz(3)
+  result            String          @db.VarChar(32)
+  payload           Json?
+  createdAt         DateTime        @default(now()) @map("created_at") @db.Timestamptz(3)
+  deliveryAttempt   DeliveryAttempt @relation(fields: [deliveryAttemptId], references: [id], onDelete: Restrict)
+
+  @@unique([provider, providerEventId])
+  @@index([deliveryAttemptId, providerUpdatedAt])
+  @@map("delivery_provider_events")
+}
+
+model DeliveryJob {
+  id             String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  fulfillmentId  String            @unique @map("fulfillment_id") @db.Uuid
+  idempotencyKey String            @unique @map("idempotency_key") @db.VarChar(160)
+  dispatchAt     DateTime          @map("dispatch_at") @db.Timestamptz(3)
+  status         DeliveryJobStatus @default(SCHEDULED)
+  attempts       Int               @default(0)
+  maxAttempts    Int               @default(3) @map("max_attempts")
+  nextAttemptAt  DateTime?         @map("next_attempt_at") @db.Timestamptz(3)
+  lastError      String?           @map("last_error") @db.VarChar(500)
+  lockedAt       DateTime?         @map("locked_at") @db.Timestamptz(3)
+  createdAt      DateTime          @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt      DateTime          @updatedAt @map("updated_at") @db.Timestamptz(3)
+  fulfillment    DailyFulfillment  @relation(fields: [fulfillmentId], references: [id], onDelete: Restrict)
+
+  @@index([status, dispatchAt, nextAttemptAt])
+  @@map("delivery_jobs")
+}
+
+model DailyOrderLine {
+  id                   String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  orderId              String        @map("order_id") @db.Uuid
+  mealType             MealType      @map("meal_type")
+  mealSnapshot         Json          @map("meal_snapshot")
+  recipeSnapshot       Json          @map("recipe_snapshot")
+  modificationSnapshot Json          @map("modification_snapshot")
+  nutritionSnapshot    Json          @map("nutrition_snapshot")
+  priceSnapshot        Json          @map("price_snapshot")
+  order                DailyOrder    @relation(fields: [orderId], references: [id], onDelete: Restrict)
+  packingItems         PackingItem[]
+  review               MealReview?
+
+  @@unique([orderId, mealType])
+  @@map("daily_order_lines")
+}
+
+model MealReview {
+  id                String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  mealId            String             @map("meal_id") @db.Uuid
+  memberId          String             @map("member_id") @db.Uuid
+  authorUserId      String             @map("author_user_id") @db.Uuid
+  serviceDate       DateTime           @map("service_date") @db.Date
+  rating            Int
+  comment           String?            @db.VarChar(1000)
+  locale            String             @db.VarChar(5)
+  dailyOrderLineId  String?            @unique @map("daily_order_line_id") @db.Uuid
+  status            ReviewStatus       @default(PUBLISHED)
+  updatedAt         DateTime           @updatedAt @map("updated_at") @db.Timestamptz(3)
+  deletedAt         DateTime?          @map("deleted_at") @db.Timestamptz(3)
+  createdAt         DateTime           @default(now()) @map("created_at") @db.Timestamptz(3)
+  meal              Meal               @relation(fields: [mealId], references: [id], onDelete: Restrict)
+  member            HouseholdMember    @relation(fields: [memberId], references: [id], onDelete: Restrict)
+  author            User               @relation(fields: [authorUserId], references: [id], onDelete: Restrict)
+  dailyOrderLine    DailyOrderLine?    @relation(fields: [dailyOrderLineId], references: [id], onDelete: Restrict)
+  moderationActions ReviewModeration[]
+
+  @@unique([mealId, memberId, serviceDate])
+  @@index([mealId, createdAt])
+  @@map("meal_reviews")
+}
+
+model ReviewModeration {
+  id              String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  reviewId        String       @map("review_id") @db.Uuid
+  actorEmployeeId String       @map("actor_employee_id") @db.Uuid
+  action          String       @db.VarChar(32)
+  reason          String       @db.VarChar(500)
+  oldStatus       ReviewStatus @map("old_status")
+  newStatus       ReviewStatus @map("new_status")
+  createdAt       DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+  review          MealReview   @relation(fields: [reviewId], references: [id], onDelete: Restrict)
+  actor           Employee     @relation(fields: [actorEmployeeId], references: [id], onDelete: Restrict)
+
+  @@index([reviewId, createdAt])
+  @@map("review_moderations")
+}
+
+model SupportThread {
+  id                 String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  householdId        String              @map("household_id") @db.Uuid
+  ownerUserId        String              @map("owner_user_id") @db.Uuid
+  dailyFulfillmentId String?             @map("daily_fulfillment_id") @db.Uuid
+  assignedEmployeeId String?             @map("assigned_employee_id") @db.Uuid
+  reason             SupportReason
+  positive           Boolean             @default(false)
+  subject            String              @db.VarChar(160)
+  status             SupportThreadStatus @default(WAITING_FOR_SUPPORT)
+  customerUnread     Int                 @default(0) @map("customer_unread")
+  staffUnread        Int                 @default(0) @map("staff_unread")
+  lastMessageAt      DateTime            @default(now()) @map("last_message_at") @db.Timestamptz(3)
+  resolvedAt         DateTime?           @map("resolved_at") @db.Timestamptz(3)
+  createdAt          DateTime            @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt          DateTime            @updatedAt @map("updated_at") @db.Timestamptz(3)
+  household          Household           @relation(fields: [householdId], references: [id], onDelete: Restrict)
+  owner              User                @relation("SupportThreadOwner", fields: [ownerUserId], references: [id], onDelete: Restrict)
+  fulfillment        DailyFulfillment?   @relation(fields: [dailyFulfillmentId], references: [id], onDelete: Restrict)
+  assignedEmployee   Employee?           @relation("SupportAssignee", fields: [assignedEmployeeId], references: [id], onDelete: Restrict)
+  messages           SupportMessage[]
+
+  @@index([householdId, lastMessageAt])
+  @@index([status, lastMessageAt])
+  @@map("support_threads")
+}
+
+model SupportMessage {
+  id               String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  threadId         String            @map("thread_id") @db.Uuid
+  authorType       SupportAuthorType @map("author_type")
+  authorUserId     String?           @map("author_user_id") @db.Uuid
+  authorEmployeeId String?           @map("author_employee_id") @db.Uuid
+  clientMessageId  String            @map("client_message_id") @db.VarChar(128)
+  body             String            @db.VarChar(4000)
+  attachments      Json
+  createdAt        DateTime          @default(now()) @map("created_at") @db.Timestamptz(3)
+  thread           SupportThread     @relation(fields: [threadId], references: [id], onDelete: Restrict)
+  authorUser       User?             @relation(fields: [authorUserId], references: [id], onDelete: Restrict)
+  authorEmployee   Employee?         @relation(fields: [authorEmployeeId], references: [id], onDelete: Restrict)
+
+  @@unique([threadId, clientMessageId])
+  @@index([threadId, createdAt])
+  @@map("support_messages")
+}
+
+model NotificationPreference {
+  id                   String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId               String   @unique @map("user_id") @db.Uuid
+  servicePushEnabled   Boolean  @default(true) @map("service_push_enabled")
+  marketingPushEnabled Boolean  @default(false) @map("marketing_push_enabled")
+  locale               String   @default("kk") @db.VarChar(5)
+  updatedAt            DateTime @updatedAt @map("updated_at") @db.Timestamptz(3)
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@map("notification_preferences")
+}
+
+model NotificationTemplate {
+  id            String                     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  eventCode     String                     @map("event_code") @db.VarChar(80)
+  locale        String                     @db.VarChar(5)
+  version       Int
+  status        NotificationTemplateStatus @default(DRAFT)
+  titleTemplate String                     @map("title_template") @db.VarChar(180)
+  bodyTemplate  String                     @map("body_template") @db.VarChar(500)
+  createdAt     DateTime                   @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@unique([eventCode, locale, version])
+  @@index([eventCode, locale, status, version])
+  @@map("notification_templates")
+}
+
+model NotificationOutbox {
+  id                String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId            String       @map("user_id") @db.Uuid
+  eventCode         String       @map("event_code") @db.VarChar(80)
+  idempotencyKey    String       @unique @map("idempotency_key") @db.VarChar(160)
+  serviceMessage    Boolean      @default(true) @map("service_message")
+  locale            String       @db.VarChar(5)
+  title             String       @db.VarChar(180)
+  body              String       @db.VarChar(500)
+  payload           Json
+  status            OutboxStatus @default(PENDING)
+  attempts          Int          @default(0)
+  nextAttemptAt     DateTime     @default(now()) @map("next_attempt_at") @db.Timestamptz(3)
+  providerMessageId String?      @map("provider_message_id") @db.VarChar(180)
+  lastError         String?      @map("last_error") @db.VarChar(500)
+  sentAt            DateTime?    @map("sent_at") @db.Timestamptz(3)
+  createdAt         DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+  user              User         @relation(fields: [userId], references: [id], onDelete: Restrict)
+
+  @@index([status, nextAttemptAt])
+  @@index([userId, createdAt])
+  @@map("notification_outbox")
+}
+
+model SystemSetting {
+  id             String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  groupCode      String        @map("group_code") @db.VarChar(64)
+  key            String        @db.VarChar(96)
+  version        Int
+  status         SettingStatus @default(DRAFT)
+  value          Json
+  effectiveAt    DateTime?     @map("effective_at") @db.Timestamptz(3)
+  idempotencyKey String        @unique @map("idempotency_key") @db.VarChar(128)
+  createdAt      DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@unique([groupCode, key, version])
+  @@index([groupCode, status, key, version])
+  @@map("system_settings")
+}
+
+model ExportJob {
+  id                String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  creatorEmployeeId String          @map("creator_employee_id") @db.Uuid
+  reportType        String          @map("report_type") @db.VarChar(32)
+  format            ExportFormat
+  status            ExportJobStatus @default(QUEUED)
+  progress          Int             @default(0)
+  filters           Json
+  columns           Json
+  units             Json
+  currency          String          @default("KZT") @db.VarChar(3)
+  rowCount          Int?            @map("row_count")
+  fileName          String?         @map("file_name") @db.VarChar(240)
+  mimeType          String?         @map("mime_type") @db.VarChar(120)
+  fileData          Bytes?          @map("file_data")
+  errorMessage      String?         @map("error_message") @db.VarChar(500)
+  expiresAt         DateTime?       @map("expires_at") @db.Timestamptz(3)
+  createdAt         DateTime        @default(now()) @map("created_at") @db.Timestamptz(3)
+  completedAt       DateTime?       @map("completed_at") @db.Timestamptz(3)
+  creator           Employee        @relation(fields: [creatorEmployeeId], references: [id], onDelete: Restrict)
+
+  @@index([creatorEmployeeId, createdAt])
+  @@index([status, createdAt])
+  @@map("export_jobs")
+}
+
+model SubscriptionChangeQuote {
+  id                String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  subscriptionId    String                 @map("subscription_id") @db.Uuid
+  type              SubscriptionChangeType
+  memberId          String?                @map("member_id") @db.Uuid
+  guestId           String?                @map("guest_id") @db.Uuid
+  serviceDates      Json                   @map("service_dates")
+  subtotalKzt       Int                    @map("subtotal_kzt")
+  bonusKzt          Int                    @map("bonus_kzt")
+  cashKzt           Int                    @map("cash_kzt")
+  breakdownSnapshot Json                   @map("breakdown_snapshot")
+  status            QuoteStatus            @default(ACTIVE)
+  expiresAt         DateTime               @map("expires_at") @db.Timestamptz(3)
+  createdAt         DateTime               @default(now()) @map("created_at") @db.Timestamptz(3)
+  subscription      Subscription           @relation(fields: [subscriptionId], references: [id], onDelete: Restrict)
+  member            HouseholdMember?       @relation(fields: [memberId], references: [id], onDelete: Restrict)
+  guest             SubscriptionGuest?     @relation(fields: [guestId], references: [id], onDelete: Restrict)
+  charge            SubscriptionCharge?
+
+  @@index([subscriptionId, status, expiresAt])
+  @@map("subscription_change_quotes")
+}
+
+model SubscriptionCharge {
+  id             String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  quoteId        String                  @unique @map("quote_id") @db.Uuid
+  idempotencyKey String                  @unique @map("idempotency_key") @db.VarChar(128)
+  status         PurchaseStatus          @default(PENDING)
+  cashKzt        Int                     @map("cash_kzt")
+  bonusKzt       Int                     @map("bonus_kzt")
+  paidAt         DateTime?               @map("paid_at") @db.Timestamptz(3)
+  createdAt      DateTime                @default(now()) @map("created_at") @db.Timestamptz(3)
+  quote          SubscriptionChangeQuote @relation(fields: [quoteId], references: [id], onDelete: Restrict)
+
+  @@map("subscription_charges")
+}
+
+model StandaloneAddonOrder {
+  id             String                  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  subscriptionId String                  @map("subscription_id") @db.Uuid
+  serviceDayId   String                  @map("service_day_id") @db.Uuid
+  participantId  String                  @map("participant_id") @db.Uuid
+  addonId        String                  @map("addon_id") @db.Uuid
+  quantity       Int
+  status         String                  @default("PLANNED") @db.VarChar(32)
+  addonSnapshot  Json                    @map("addon_snapshot")
+  priceSnapshot  Json                    @map("price_snapshot")
+  createdAt      DateTime                @default(now()) @map("created_at") @db.Timestamptz(3)
+  subscription   Subscription            @relation(fields: [subscriptionId], references: [id], onDelete: Restrict)
+  serviceDay     SubscriptionServiceDay  @relation(fields: [serviceDayId], references: [id], onDelete: Restrict)
+  participant    SubscriptionParticipant @relation(fields: [participantId], references: [id], onDelete: Restrict)
+  addon          Addon                   @relation(fields: [addonId], references: [id], onDelete: Restrict)
+
+  @@unique([serviceDayId, participantId, addonId])
+  @@index([subscriptionId, status, serviceDayId])
+  @@map("standalone_addon_orders")
+}
+
+/// Only provider-issued opaque identifiers and masked display metadata are stored.
+/// PAN/CVV are intentionally absent from this schema.
+model PaymentMethod {
+  id                  String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  householdId         String           @map("household_id") @db.Uuid
+  provider            String           @db.VarChar(40)
+  providerCustomerRef String?          @map("provider_customer_ref") @db.VarChar(160)
+  providerTokenRef    String           @unique @map("provider_token_ref") @db.VarChar(256)
+  mandateRef          String?          @unique @map("mandate_ref") @db.VarChar(256)
+  brand               String?          @db.VarChar(32)
+  last4               String?          @db.Char(4)
+  expiryMonth         Int?             @map("expiry_month")
+  expiryYear          Int?             @map("expiry_year")
+  active              Boolean          @default(true)
+  mandateActive       Boolean          @default(false) @map("mandate_active")
+  consentedAt         DateTime?        @map("consented_at") @db.Timestamptz(3)
+  revokedAt           DateTime?        @map("revoked_at") @db.Timestamptz(3)
+  createdAt           DateTime         @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt           DateTime         @updatedAt @map("updated_at") @db.Timestamptz(3)
+  household           Household        @relation(fields: [householdId], references: [id], onDelete: Restrict)
+  attempts            PaymentAttempt[]
+  renewalJobs         RenewalJob[]
+
+  @@index([householdId, active])
+  @@map("payment_methods")
+}
+
+model ProviderWebhookEvent {
+  id                  String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  provider            String              @db.VarChar(40)
+  providerEventId     String              @map("provider_event_id") @db.VarChar(160)
+  providerOperationId String?             @map("provider_operation_id") @db.VarChar(160)
+  eventType           String              @map("event_type") @db.VarChar(80)
+  status              ProviderEventStatus @default(RECEIVED)
+  signatureValid      Boolean             @map("signature_valid")
+  payloadSnapshot     Json                @map("payload_snapshot")
+  resultSnapshot      Json?               @map("result_snapshot")
+  providerOccurredAt  DateTime?           @map("provider_occurred_at") @db.Timestamptz(3)
+  processedAt         DateTime?           @map("processed_at") @db.Timestamptz(3)
+  createdAt           DateTime            @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@unique([provider, providerEventId])
+  @@index([providerOperationId, createdAt])
+  @@map("provider_webhook_events")
+}
+
+model Refund {
+  id                       String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  purchaseId               String             @map("purchase_id") @db.Uuid
+  paymentAttemptId         String?            @map("payment_attempt_id") @db.Uuid
+  idempotencyKey           String             @unique @map("idempotency_key") @db.VarChar(128)
+  providerRefundReference  String?            @unique @map("provider_refund_reference") @db.VarChar(160)
+  kind                     RefundKind
+  status                   RefundStatus       @default(REQUESTED)
+  cashKzt                  Int                @map("cash_kzt")
+  bonusKzt                 Int                @map("bonus_kzt")
+  restoredServiceDays      Int                @default(0) @map("restored_service_days")
+  reason                   String             @db.VarChar(500)
+  actorUserId              String?            @map("actor_user_id") @db.Uuid
+  actorEmployeeId          String?            @map("actor_employee_id") @db.Uuid
+  policySnapshot           Json               @map("policy_snapshot")
+  providerResponseSnapshot Json?              @map("provider_response_snapshot")
+  authoritativeAt          DateTime?          @map("authoritative_at") @db.Timestamptz(3)
+  createdAt                DateTime           @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt                DateTime           @updatedAt @map("updated_at") @db.Timestamptz(3)
+  purchase                 Purchase           @relation(fields: [purchaseId], references: [id], onDelete: Restrict)
+  paymentAttempt           PaymentAttempt?    @relation(fields: [paymentAttemptId], references: [id], onDelete: Restrict)
+  receipts                 Receipt[]
+  bonusEntries             BonusLedgerEntry[]
+
+  @@index([purchaseId, status])
+  @@map("refunds")
+}
+
+model BonusLedgerEntry {
+  id             String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  householdId    String             @map("household_id") @db.Uuid
+  purchaseId     String?            @map("purchase_id") @db.Uuid
+  refundId       String?            @map("refund_id") @db.Uuid
+  reversalOfId   String?            @map("reversal_of_id") @db.Uuid
+  idempotencyKey String             @unique @map("idempotency_key") @db.VarChar(160)
+  type           BonusEntryType
+  amountKzt      Int                @map("amount_kzt")
+  reason         String             @db.VarChar(240)
+  sourceKey      String?            @map("source_key") @db.VarChar(160)
+  metadata       Json?
+  createdAt      DateTime           @default(now()) @map("created_at") @db.Timestamptz(3)
+  household      Household          @relation(fields: [householdId], references: [id], onDelete: Restrict)
+  purchase       Purchase?          @relation(fields: [purchaseId], references: [id], onDelete: Restrict)
+  refund         Refund?            @relation(fields: [refundId], references: [id], onDelete: Restrict)
+  reversalOf     BonusLedgerEntry?  @relation("BonusReversals", fields: [reversalOfId], references: [id], onDelete: Restrict)
+  reversals      BonusLedgerEntry[] @relation("BonusReversals")
+
+  @@index([householdId, createdAt])
+  @@map("bonus_ledger_entries")
+}
+
+model BonusReservation {
+  id          String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  householdId String                 @map("household_id") @db.Uuid
+  quoteId     String                 @unique @map("quote_id") @db.Uuid
+  purchaseId  String?                @unique @map("purchase_id") @db.Uuid
+  amountKzt   Int                    @map("amount_kzt")
+  status      BonusReservationStatus @default(RESERVED)
+  expiresAt   DateTime               @map("expires_at") @db.Timestamptz(3)
+  createdAt   DateTime               @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt   DateTime               @updatedAt @map("updated_at") @db.Timestamptz(3)
+  household   Household              @relation(fields: [householdId], references: [id], onDelete: Restrict)
+  quote       PriceQuote             @relation(fields: [quoteId], references: [id], onDelete: Restrict)
+  purchase    Purchase?              @relation(fields: [purchaseId], references: [id], onDelete: Restrict)
+
+  @@index([householdId, status, expiresAt])
+  @@map("bonus_reservations")
+}
+
+model LoyaltySettings {
+  id                          String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  version                     Int                @unique
+  status                      BusinessRuleStatus @default(DRAFT)
+  welcomeBonusBps             Int                @default(1000) @map("welcome_bonus_bps")
+  bonusKztPerUnit             Int                @default(1) @map("bonus_kzt_per_unit")
+  maxRedemptionBps            Int                @default(10000) @map("max_redemption_bps")
+  welcomeBase                 String             @default("CASH_AFTER_DISCOUNTS") @map("welcome_base") @db.VarChar(64)
+  allowMultiplePromos         Boolean            @default(false) @map("allow_multiple_promos")
+  partialRefundKeepsClubCycle Boolean            @default(false) @map("partial_refund_keeps_club_cycle")
+  createdAt                   DateTime           @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@index([status, version])
+  @@map("loyalty_settings")
+}
+
+model PromoCode {
+  id                     String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code                   String             @unique @db.VarChar(64)
+  mechanic               PromoMechanic
+  value                  Int
+  status                 BusinessRuleStatus @default(DRAFT)
+  validFrom              DateTime?          @map("valid_from") @db.Timestamptz(3)
+  validTo                DateTime?          @map("valid_to") @db.Timestamptz(3)
+  totalUseLimit          Int?               @map("total_use_limit")
+  perHouseholdUseLimit   Int                @default(1) @map("per_household_use_limit")
+  firstSubscriptionOnly  Boolean            @default(false) @map("first_subscription_only")
+  minSubtotalKzt         Int                @default(0) @map("min_subtotal_kzt")
+  applicableOperations   Json               @map("applicable_operations")
+  applicableProductCodes Json               @map("applicable_product_codes")
+  compatibleCodes        Json               @map("compatible_codes")
+  createdAt              DateTime           @default(now()) @map("created_at") @db.Timestamptz(3)
+  reservations           PromoReservation[]
+
+  @@index([status, validFrom, validTo])
+  @@map("promo_codes")
+}
+
+model PromoReservation {
+  id            String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  promoCodeId   String            @map("promo_code_id") @db.Uuid
+  householdId   String            @map("household_id") @db.Uuid
+  quoteId       String            @unique @map("quote_id") @db.Uuid
+  purchaseId    String?           @unique @map("purchase_id") @db.Uuid
+  status        ReservationStatus @default(RESERVED)
+  discountKzt   Int               @default(0) @map("discount_kzt")
+  bonusGrantKzt Int               @default(0) @map("bonus_grant_kzt")
+  expiresAt     DateTime          @map("expires_at") @db.Timestamptz(3)
+  confirmedAt   DateTime?         @map("confirmed_at") @db.Timestamptz(3)
+  createdAt     DateTime          @default(now()) @map("created_at") @db.Timestamptz(3)
+  promoCode     PromoCode         @relation(fields: [promoCodeId], references: [id], onDelete: Restrict)
+  household     Household         @relation(fields: [householdId], references: [id], onDelete: Restrict)
+  quote         PriceQuote        @relation(fields: [quoteId], references: [id], onDelete: Restrict)
+  purchase      Purchase?         @relation(fields: [purchaseId], references: [id], onDelete: Restrict)
+
+  @@index([promoCodeId, status, expiresAt])
+  @@index([householdId, promoCodeId, status])
+  @@map("promo_reservations")
+}
+
+model ReferralTier {
+  id                    String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code                  String             @unique @db.VarChar(64)
+  status                BusinessRuleStatus @default(DRAFT)
+  minQualifiedReferrals Int                @map("min_qualified_referrals")
+  rewardBps             Int                @map("reward_bps")
+  rewardBase            String             @default("INVITEE_CASH_AFTER_DISCOUNTS") @map("reward_base") @db.VarChar(64)
+  createdAt             DateTime           @default(now()) @map("created_at") @db.Timestamptz(3)
+  referrals             Referral[]
+
+  @@index([status, minQualifiedReferrals])
+  @@map("referral_tiers")
+}
+
+model Referral {
+  id                   String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  referrerUserId       String         @map("referrer_user_id") @db.Uuid
+  inviteeUserId        String         @unique @map("invitee_user_id") @db.Uuid
+  referralCodeSnapshot String         @map("referral_code_snapshot") @db.VarChar(32)
+  status               ReferralStatus @default(PENDING)
+  qualifiedPurchaseId  String?        @unique @map("qualified_purchase_id") @db.Uuid
+  tierId               String?        @map("tier_id") @db.Uuid
+  rewardBps            Int?           @map("reward_bps")
+  rewardKzt            Int?           @map("reward_kzt")
+  qualifiedAt          DateTime?      @map("qualified_at") @db.Timestamptz(3)
+  reversedAt           DateTime?      @map("reversed_at") @db.Timestamptz(3)
+  createdAt            DateTime       @default(now()) @map("created_at") @db.Timestamptz(3)
+  referrer             User           @relation("ReferralReferrer", fields: [referrerUserId], references: [id], onDelete: Restrict)
+  invitee              User           @relation("ReferralInvitee", fields: [inviteeUserId], references: [id], onDelete: Restrict)
+  qualifiedPurchase    Purchase?      @relation(fields: [qualifiedPurchaseId], references: [id], onDelete: Restrict)
+  tier                 ReferralTier?  @relation(fields: [tierId], references: [id], onDelete: Restrict)
+
+  @@index([referrerUserId, status])
+  @@map("referrals")
+}
+
+model ClubTier {
+  id                  String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code                String             @unique @db.VarChar(64)
+  nameKk              String             @map("name_kk") @db.VarChar(120)
+  nameRu              String             @map("name_ru") @db.VarChar(120)
+  nameEn              String             @map("name_en") @db.VarChar(120)
+  status              BusinessRuleStatus @default(DRAFT)
+  thresholdPaidCycles Int                @map("threshold_paid_cycles")
+  bonusMultiplierBps  Int                @default(10000) @map("bonus_multiplier_bps")
+  benefits            Json
+  createdAt           DateTime           @default(now()) @map("created_at") @db.Timestamptz(3)
+  memberships         ClubMembership[]
+
+  @@index([status, thresholdPaidCycles])
+  @@map("club_tiers")
+}
+
+model ClubMembership {
+  id                   String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  householdId          String    @unique @map("household_id") @db.Uuid
+  tierId               String?   @map("tier_id") @db.Uuid
+  qualifyingPaidCycles Int       @default(0) @map("qualifying_paid_cycles")
+  updatedAt            DateTime  @updatedAt @map("updated_at") @db.Timestamptz(3)
+  household            Household @relation(fields: [householdId], references: [id], onDelete: Restrict)
+  tier                 ClubTier? @relation(fields: [tierId], references: [id], onDelete: Restrict)
+
+  @@map("club_memberships")
+}
+
+model RecurringAddonPlan {
+  id                       String                     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  householdId              String                     @map("household_id") @db.Uuid
+  subscriptionId           String                     @map("subscription_id") @db.Uuid
+  participantId            String?                    @map("participant_id") @db.Uuid
+  addonId                  String                     @map("addon_id") @db.Uuid
+  quantityPerDay           Int                        @map("quantity_per_day")
+  paidUnits                Int                        @map("paid_units")
+  remainingUnits           Int                        @map("remaining_units")
+  unitPriceKzt             Int                        @map("unit_price_kzt")
+  status                   String                     @default("ACTIVE") @db.VarChar(32)
+  idempotencyKey           String                     @unique @map("idempotency_key") @db.VarChar(128)
+  totalKzt                 Int                        @map("total_kzt")
+  bonusKzt                 Int                        @default(0) @map("bonus_kzt")
+  cashKzt                  Int                        @default(0) @map("cash_kzt")
+  providerReference        String?                    @unique @map("provider_reference") @db.VarChar(160)
+  providerEventTime        DateTime?                  @map("provider_event_time") @db.Timestamptz(3)
+  paymentStatus            PaymentAttemptStatus       @default(CREATED) @map("payment_status")
+  providerResponseSnapshot Json?                      @map("provider_response_snapshot")
+  paidAt                   DateTime?                  @map("paid_at") @db.Timestamptz(3)
+  createdAt                DateTime                   @default(now()) @map("created_at") @db.Timestamptz(3)
+  household                Household                  @relation(fields: [householdId], references: [id], onDelete: Restrict)
+  subscription             Subscription               @relation(fields: [subscriptionId], references: [id], onDelete: Restrict)
+  participant              SubscriptionParticipant?   @relation(fields: [participantId], references: [id], onDelete: Restrict)
+  addon                    Addon                      @relation(fields: [addonId], references: [id], onDelete: Restrict)
+  allocations              RecurringAddonAllocation[]
+  refunds                  RecurringAddonRefund[]
+
+  @@index([subscriptionId, status])
+  @@index([paymentStatus, createdAt])
+  @@map("recurring_addon_plans")
+}
+
+model RecurringAddonRefund {
+  id                       String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  planId                   String             @map("plan_id") @db.Uuid
+  idempotencyKey           String             @unique @map("idempotency_key") @db.VarChar(128)
+  status                   RefundStatus       @default(REQUESTED)
+  units                    Int
+  cashKzt                  Int                @map("cash_kzt")
+  bonusKzt                 Int                @map("bonus_kzt")
+  reason                   String             @db.VarChar(500)
+  providerRefundReference  String?            @unique @map("provider_refund_reference") @db.VarChar(160)
+  providerResponseSnapshot Json?              @map("provider_response_snapshot")
+  finalizedAt              DateTime?          @map("finalized_at") @db.Timestamptz(3)
+  createdAt                DateTime           @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt                DateTime           @updatedAt @map("updated_at") @db.Timestamptz(3)
+  plan                     RecurringAddonPlan @relation(fields: [planId], references: [id], onDelete: Restrict)
+
+  @@index([planId, status])
+  @@map("recurring_addon_refunds")
+}
+
+model RecurringAddonAllocation {
+  id           String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  planId       String                 @map("plan_id") @db.Uuid
+  serviceDayId String                 @map("service_day_id") @db.Uuid
+  quantity     Int
+  status       String                 @default("PLANNED") @db.VarChar(32)
+  movedFromId  String?                @map("moved_from_id") @db.Uuid
+  plan         RecurringAddonPlan     @relation(fields: [planId], references: [id], onDelete: Restrict)
+  serviceDay   SubscriptionServiceDay @relation(fields: [serviceDayId], references: [id], onDelete: Restrict)
+
+  @@unique([planId, serviceDayId])
+  @@index([serviceDayId, status])
+  @@map("recurring_addon_allocations")
+}
+
+model Receipt {
+  id                  String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  purchaseId          String        @map("purchase_id") @db.Uuid
+  refundId            String?       @map("refund_id") @db.Uuid
+  idempotencyKey      String        @unique @map("idempotency_key") @db.VarChar(160)
+  status              ReceiptStatus @default(EXPECTED)
+  fiscal              Boolean       @default(false)
+  provider            String        @db.VarChar(40)
+  externalDocumentRef String?       @unique @map("external_document_ref") @db.VarChar(256)
+  documentUrl         String?       @map("document_url") @db.VarChar(1000)
+  documentSnapshot    Json?         @map("document_snapshot")
+  errorCode           String?       @map("error_code") @db.VarChar(80)
+  createdAt           DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt           DateTime      @updatedAt @map("updated_at") @db.Timestamptz(3)
+  purchase            Purchase      @relation(fields: [purchaseId], references: [id], onDelete: Restrict)
+  refund              Refund?       @relation(fields: [refundId], references: [id], onDelete: Restrict)
+
+  @@index([status, createdAt])
+  @@map("receipts")
+}
+
+model PaymentOutbox {
+  id             String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  aggregateType  String       @map("aggregate_type") @db.VarChar(50)
+  aggregateId    String       @map("aggregate_id") @db.Uuid
+  eventType      String       @map("event_type") @db.VarChar(100)
+  idempotencyKey String       @unique @map("idempotency_key") @db.VarChar(160)
+  payload        Json
+  status         OutboxStatus @default(PENDING)
+  attempts       Int          @default(0)
+  nextAttemptAt  DateTime     @default(now()) @map("next_attempt_at") @db.Timestamptz(3)
+  lastError      String?      @map("last_error") @db.VarChar(1000)
+  processedAt    DateTime?    @map("processed_at") @db.Timestamptz(3)
+  createdAt      DateTime     @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@index([status, nextAttemptAt])
+  @@map("payment_outbox")
+}
+
+model RenewalJob {
+  id                String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  subscriptionId    String        @map("subscription_id") @db.Uuid
+  paymentMethodId   String        @map("payment_method_id") @db.Uuid
+  cycleEndDate      DateTime      @map("cycle_end_date") @db.Date
+  expectedChargeAt  DateTime      @map("expected_charge_at") @db.Timestamptz(3)
+  notificationDueAt DateTime      @map("notification_due_at") @db.Timestamptz(3)
+  notifiedAt        DateTime?     @map("notified_at") @db.Timestamptz(3)
+  priceKzt          Int           @map("price_kzt")
+  pricingSnapshot   Json          @map("pricing_snapshot")
+  termsVersion      String        @map("terms_version") @db.VarChar(80)
+  status            RenewalStatus @default(SCHEDULED)
+  attempts          Int           @default(0)
+  maxAttempts       Int           @default(3) @map("max_attempts")
+  nextAttemptAt     DateTime?     @map("next_attempt_at") @db.Timestamptz(3)
+  idempotencyKey    String        @unique @map("idempotency_key") @db.VarChar(160)
+  createdAt         DateTime      @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt         DateTime      @updatedAt @map("updated_at") @db.Timestamptz(3)
+  subscription      Subscription  @relation(fields: [subscriptionId], references: [id], onDelete: Restrict)
+  paymentMethod     PaymentMethod @relation(fields: [paymentMethodId], references: [id], onDelete: Restrict)
+
+  @@unique([subscriptionId, cycleEndDate])
+  @@index([status, nextAttemptAt])
+  @@index([status, notificationDueAt])
+  @@map("renewal_jobs")
+}
+
+model PaymentSettings {
+  id                       String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  version                  Int      @unique
+  active                   Boolean  @default(false)
+  businessTimezone         String   @default("Asia/Almaty") @map("business_timezone") @db.VarChar(64)
+  refundWindowCalendarDays Int      @default(7) @map("refund_window_calendar_days")
+  renewalNoticeDays        Int      @default(4) @map("renewal_notice_days")
+  renewalMaxAttempts       Int      @default(3) @map("renewal_max_attempts")
+  renewalRetryDelayHours   Int      @default(24) @map("renewal_retry_delay_hours")
+  termsVersion             String   @default("local-v1") @map("terms_version") @db.VarChar(80)
+  createdAt                DateTime @default(now()) @map("created_at") @db.Timestamptz(3)
+
+  @@map("payment_settings")
+}
+
+model StorageLocation {
+  id                    String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code                  String                 @unique @db.VarChar(64)
+  name                  String                 @db.VarChar(160)
+  active                Boolean                @default(true)
+  balances              InventoryBalance[]
+  sourceMovements       InventoryMovement[]    @relation("MovementSource")
+  targetMovements       InventoryMovement[]    @relation("MovementTarget")
+  purchaseItems         SupplierPurchaseItem[]
+  inventoryReservations InventoryReservation[]
+
+  @@map("storage_locations")
+}
+
+model InventoryBalance {
+  id                String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  ingredientId      String          @map("ingredient_id") @db.Uuid
+  storageLocationId String          @map("storage_location_id") @db.Uuid
+  onHandQuantity    Decimal         @default(0) @map("on_hand_quantity") @db.Decimal(16, 3)
+  reservedQuantity  Decimal         @default(0) @map("reserved_quantity") @db.Decimal(16, 3)
+  averageCostKzt    Decimal         @default(0) @map("average_cost_kzt") @db.Decimal(16, 6)
+  version           Int             @default(0)
+  updatedAt         DateTime        @updatedAt @map("updated_at") @db.Timestamptz(3)
+  ingredient        Ingredient      @relation(fields: [ingredientId], references: [id], onDelete: Restrict)
+  storageLocation   StorageLocation @relation(fields: [storageLocationId], references: [id], onDelete: Restrict)
+
+  @@unique([ingredientId, storageLocationId])
+  @@index([storageLocationId, onHandQuantity])
+  @@map("inventory_balances")
+}
+
+model InventoryMovement {
+  id               String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  ingredientId     String                @map("ingredient_id") @db.Uuid
+  type             InventoryMovementType
+  quantity         Decimal               @db.Decimal(16, 3)
+  canonicalUnit    String                @map("canonical_unit") @db.VarChar(16)
+  sourceLocationId String?               @map("source_location_id") @db.Uuid
+  targetLocationId String?               @map("target_location_id") @db.Uuid
+  unitCostKzt      Decimal               @map("unit_cost_kzt") @db.Decimal(16, 6)
+  totalCostKzt     Decimal               @map("total_cost_kzt") @db.Decimal(18, 2)
+  idempotencyKey   String                @unique @map("idempotency_key") @db.VarChar(180)
+  referenceType    String                @map("reference_type") @db.VarChar(64)
+  referenceId      String                @map("reference_id") @db.VarChar(180)
+  reason           String?               @db.VarChar(500)
+  actorUserId      String?               @map("actor_user_id") @db.Uuid
+  shiftCode        String?               @map("shift_code") @db.VarChar(80)
+  recipeSnapshot   Json?                 @map("recipe_snapshot")
+  occurredAt       DateTime              @default(now()) @map("occurred_at") @db.Timestamptz(3)
+  ingredient       Ingredient            @relation(fields: [ingredientId], references: [id], onDelete: Restrict)
+  sourceLocation   StorageLocation?      @relation("MovementSource", fields: [sourceLocationId], references: [id], onDelete: Restrict)
+  targetLocation   StorageLocation?      @relation("MovementTarget", fields: [targetLocationId], references: [id], onDelete: Restrict)
+  wasteEntry       WasteEntry?
+
+  @@index([ingredientId, occurredAt])
+  @@index([referenceType, referenceId])
+  @@map("inventory_movements")
+}
+
+model Supplier {
+  id          String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  code        String             @unique @db.VarChar(64)
+  name        String             @db.VarChar(200)
+  contactName String?            @map("contact_name") @db.VarChar(160)
+  phone       String?            @db.VarChar(32)
+  email       String?            @db.VarChar(254)
+  active      Boolean            @default(true)
+  purchases   SupplierPurchase[]
+
+  @@map("suppliers")
+}
+
+model SupplierPurchase {
+  id          String                 @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  supplierId  String                 @map("supplier_id") @db.Uuid
+  number      String                 @unique @db.VarChar(80)
+  status      PurchaseOrderStatus    @default(DRAFT)
+  orderedAt   DateTime?              @map("ordered_at") @db.Timestamptz(3)
+  receivedAt  DateTime?              @map("received_at") @db.Timestamptz(3)
+  actorUserId String?                @map("actor_user_id") @db.Uuid
+  createdAt   DateTime               @default(now()) @map("created_at") @db.Timestamptz(3)
+  updatedAt   DateTime               @updatedAt @map("updated_at") @db.Timestamptz(3)
+  supplier    Supplier               @relation(fields: [supplierId], references: [id], onDelete: Restrict)
+  items       SupplierPurchaseItem[]
+
+  @@index([supplierId, status])
+  @@map("supplier_purchases")
+}
+
+model SupplierPurchaseItem {
+  id                String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  purchaseId        String           @map("purchase_id") @db.Uuid
+  ingredientId      String           @map("ingredient_id") @db.Uuid
+  storageLocationId String           @map("storage_location_id") @db.Uuid
+  orderedQuantity   Decimal          @map("ordered_quantity") @db.Decimal(16, 3)
+  receivedQuantity  Decimal          @default(0) @map("received_quantity") @db.Decimal(16, 3)
+  inputUnit         String           @map("input_unit") @db.VarChar(16)
+  canonicalQuantity Decimal          @map("canonical_quantity") @db.Decimal(16, 3)
+  unitPriceKzt      Decimal          @map("unit_price_kzt") @db.Decimal(16, 6)
+  receivedAt        DateTime?        @map("received_at") @db.Timestamptz(3)
+  idempotencyKey    String?          @unique @map("idempotency_key") @db.VarChar(180)
+  purchase          SupplierPurchase @relation(fields: [purchaseId], references: [id], onDelete: Restrict)
+  ingredient        Ingredient       @relation(fields: [ingredientId], references: [id], onDelete: Restrict)
+  storageLocation   StorageLocation  @relation(fields: [storageLocationId], references: [id], onDelete: Restrict)
+
+  @@unique([purchaseId, ingredientId, storageLocationId])
+  @@map("supplier_purchase_items")
+}
+
+model WasteEntry {
+  id             String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  ingredientId   String            @map("ingredient_id") @db.Uuid
+  movementId     String            @unique @map("movement_id") @db.Uuid
+  quantity       Decimal           @db.Decimal(16, 3)
+  canonicalUnit  String            @map("canonical_unit") @db.VarChar(16)
+  costKzt        Decimal           @map("cost_kzt") @db.Decimal(18, 2)
+  reason         String            @db.VarChar(500)
+  wasteDate      DateTime          @map("waste_date") @db.Date
+  actorUserId    String            @map("actor_user_id") @db.Uuid
+  shiftCode      String?           @map("shift_code") @db.VarChar(80)
+  idempotencyKey String            @unique @map("idempotency_key") @db.VarChar(180)
+  createdAt      DateTime          @default(now()) @map("created_at") @db.Timestamptz(3)
+  ingredient     Ingredient        @relation(fields: [ingredientId], references: [id], onDelete: Restrict)
+  movement       InventoryMovement @relation(fields: [movementId], references: [id], onDelete: Restrict)
+
+  @@index([wasteDate, ingredientId])
+  @@map("waste_entries")
+}
+
+model ProductionRevision {
+  id                String                     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  serviceDate       DateTime                   @map("service_date") @db.Date
+  revision          Int
+  kind              ProductionRevisionKind
+  status            ProductionRevisionStatus   @default(DRAFT)
+  basedOnRevisionId String?                    @map("based_on_revision_id") @db.Uuid
+  idempotencyKey    String                     @unique @map("idempotency_key") @db.VarChar(180)
+  lockedAt          DateTime?                  @map("locked_at") @db.Timestamptz(3)
+  completedAt       DateTime?                  @map("completed_at") @db.Timestamptz(3)
+  actorUserId       String?                    @map("actor_user_id") @db.Uuid
+  reason            String?                    @db.VarChar(500)
+  createdAt         DateTime                   @default(now()) @map("created_at") @db.Timestamptz(3)
+  basedOnRevision   ProductionRevision?        @relation("ProductionRevisionChain", fields: [basedOnRevisionId], references: [id], onDelete: Restrict)
+  deltaRevisions    ProductionRevision[]       @relation("ProductionRevisionChain")
+  lines             ProductionLine[]
+  ingredientNeeds   ProductionIngredientNeed[]
+  reservations      InventoryReservation[]
+  packingTasks      PackingTask[]
+  printDocuments    PrintDocument[]
+  productionRun     ProductionRun?
+
+  @@unique([serviceDate, revision])
+  @@index([serviceDate, status])
+  @@map("production_revisions")
+}
+
+model ProductionLine {
+  id                   String               @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  revisionId           String               @map("revision_id") @db.Uuid
+  lineKind             String               @default("MEAL") @map("line_kind") @db.VarChar(16)
+  itemId               String               @map("item_id") @db.Uuid
+  itemCode             String               @map("item_code") @db.VarChar(80)
+  variantKey           String               @map("variant_key") @db.VarChar(64)
+  portionKey           String               @map("portion_key") @db.VarChar(80)
+  plannedQuantity      Int                  @map("planned_quantity")
+  actualQuantity       Int?                 @map("actual_quantity")
+  status               ProductionLineStatus @default(PLANNED)
+  itemSnapshot         Json                 @map("item_snapshot")
+  recipeSnapshot       Json                 @map("recipe_snapshot")
+  modificationSnapshot Json                 @map("modification_snapshot")
+  restrictionSnapshot  Json                 @map("restriction_snapshot")
+  estimatedCostKzt     Decimal              @default(0) @map("estimated_cost_kzt") @db.Decimal(18, 2)
+  actualCostKzt        Decimal?             @map("actual_cost_kzt") @db.Decimal(18, 2)
+  version              Int                  @default(0)
+  revision             ProductionRevision   @relation(fields: [revisionId], references: [id], onDelete: Restrict)
+
+  @@unique([revisionId, variantKey])
+  @@index([revisionId, status])
+  @@map("production_lines")
+}
+
+model ProductionIngredientNeed {
+  id                   String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  revisionId           String             @map("revision_id") @db.Uuid
+  ingredientId         String             @map("ingredient_id") @db.Uuid
+  requiredQuantity     Decimal            @map("required_quantity") @db.Decimal(16, 3)
+  canonicalUnit        String             @map("canonical_unit") @db.VarChar(16)
+  estimatedUnitCostKzt Decimal            @map("estimated_unit_cost_kzt") @db.Decimal(16, 6)
+  estimatedTotalKzt    Decimal            @map("estimated_total_kzt") @db.Decimal(18, 2)
+  actualQuantity       Decimal?           @map("actual_quantity") @db.Decimal(16, 3)
+  actualUnitCostKzt    Decimal?           @map("actual_unit_cost_kzt") @db.Decimal(16, 6)
+  actualTotalKzt       Decimal?           @map("actual_total_kzt") @db.Decimal(18, 2)
+  recipeSnapshot       Json               @map("recipe_snapshot")
+  revision             ProductionRevision @relation(fields: [revisionId], references: [id], onDelete: Restrict)
+  ingredient           Ingredient         @relation(fields: [ingredientId], references: [id], onDelete: Restrict)
+
+  @@unique([revisionId, ingredientId])
+  @@map("production_ingredient_needs")
+}
+
+model InventoryReservation {
+  id                String                     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  revisionId        String                     @map("revision_id") @db.Uuid
+  ingredientId      String                     @map("ingredient_id") @db.Uuid
+  storageLocationId String                     @map("storage_location_id") @db.Uuid
+  quantity          Decimal                    @db.Decimal(16, 3)
+  status            InventoryReservationStatus @default(ACTIVE)
+  idempotencyKey    String                     @unique @map("idempotency_key") @db.VarChar(180)
+  createdAt         DateTime                   @default(now()) @map("created_at") @db.Timestamptz(3)
+  revision          ProductionRevision         @relation(fields: [revisionId], references: [id], onDelete: Restrict)
+  ingredient        Ingredient                 @relation(fields: [ingredientId], references: [id], onDelete: Restrict)
+  storageLocation   StorageLocation            @relation(fields: [storageLocationId], references: [id], onDelete: Restrict)
+
+  @@unique([revisionId, ingredientId, storageLocationId])
+  @@index([ingredientId, status])
+  @@map("inventory_reservations")
+}
+
+model ProductionRun {
+  id             String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  revisionId     String             @unique @map("revision_id") @db.Uuid
+  idempotencyKey String             @unique @map("idempotency_key") @db.VarChar(180)
+  actorUserId    String             @map("actor_user_id") @db.Uuid
+  shiftCode      String?            @map("shift_code") @db.VarChar(80)
+  completedAt    DateTime           @default(now()) @map("completed_at") @db.Timestamptz(3)
+  totalCostKzt   Decimal            @map("total_cost_kzt") @db.Decimal(18, 2)
+  revision       ProductionRevision @relation(fields: [revisionId], references: [id], onDelete: Restrict)
+
+  @@map("production_runs")
+}
+
+model PackingTask {
+  id                String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  revisionId        String             @map("revision_id") @db.Uuid
+  fulfillmentId     String             @map("fulfillment_id") @db.Uuid
+  householdSnapshot Json               @map("household_snapshot")
+  orderSnapshot     Json               @map("order_snapshot")
+  status            PackingTaskStatus  @default(PENDING)
+  version           Int                @default(0)
+  startedAt         DateTime?          @map("started_at") @db.Timestamptz(3)
+  completedAt       DateTime?          @map("completed_at") @db.Timestamptz(3)
+  actorUserId       String?            @map("actor_user_id") @db.Uuid
+  createdAt         DateTime           @default(now()) @map("created_at") @db.Timestamptz(3)
+  revision          ProductionRevision @relation(fields: [revisionId], references: [id], onDelete: Restrict)
+  fulfillment       DailyFulfillment   @relation(fields: [fulfillmentId], references: [id], onDelete: Restrict)
+  items             PackingItem[]
+  printDocuments    PrintDocument[]
+
+  @@unique([revisionId, fulfillmentId])
+  @@index([revisionId, status])
+  @@map("packing_tasks")
+}
+
+model PackingItem {
+  id               String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  packingTaskId    String            @map("packing_task_id") @db.Uuid
+  dailyOrderLineId String?           @map("daily_order_line_id") @db.Uuid
+  itemType         String            @map("item_type") @db.VarChar(24)
+  itemKey          String            @map("item_key") @db.VarChar(180)
+  memberSnapshot   Json              @map("member_snapshot")
+  contentSnapshot  Json              @map("content_snapshot")
+  restrictionLabel String?           @map("restriction_label") @db.VarChar(500)
+  quantity         Int               @default(1)
+  status           PackingItemStatus @default(PENDING)
+  packedAt         DateTime?         @map("packed_at") @db.Timestamptz(3)
+  packedByUserId   String?           @map("packed_by_user_id") @db.Uuid
+  version          Int               @default(0)
+  packingTask      PackingTask       @relation(fields: [packingTaskId], references: [id], onDelete: Restrict)
+  dailyOrderLine   DailyOrderLine?   @relation(fields: [dailyOrderLineId], references: [id], onDelete: Restrict)
+
+  @@unique([packingTaskId, itemKey])
+  @@index([packingTaskId, status])
+  @@map("packing_items")
+}
+
+model PrintDocument {
+  id                String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  type              PrintDocumentType
+  revisionId        String?             @map("revision_id") @db.Uuid
+  packingTaskId     String?             @map("packing_task_id") @db.Uuid
+  reprintOfId       String?             @map("reprint_of_id") @db.Uuid
+  idempotencyKey    String              @unique @map("idempotency_key") @db.VarChar(180)
+  fileName          String              @map("file_name") @db.VarChar(240)
+  pageSize          String              @map("page_size") @db.VarChar(40)
+  contentSnapshot   Json                @map("content_snapshot")
+  htmlContent       String              @map("html_content") @db.Text
+  sha256            String              @db.Char(64)
+  generatedByUserId String              @map("generated_by_user_id") @db.Uuid
+  generatedAt       DateTime            @default(now()) @map("generated_at") @db.Timestamptz(3)
+  revision          ProductionRevision? @relation(fields: [revisionId], references: [id], onDelete: Restrict)
+  packingTask       PackingTask?        @relation(fields: [packingTaskId], references: [id], onDelete: Restrict)
+  reprintOf         PrintDocument?      @relation("PrintHistory", fields: [reprintOfId], references: [id], onDelete: Restrict)
+  reprints          PrintDocument[]     @relation("PrintHistory")
+
+  @@index([type, generatedAt])
+  @@map("print_documents")
+}

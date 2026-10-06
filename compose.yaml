@@ -1,0 +1,204 @@
+name: jantok
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-jantok}
+      POSTGRES_USER: ${POSTGRES_USER:-jantok}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-jantok_local_only}
+    ports:
+      - "${POSTGRES_HOST_PORT:-55432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  redis:
+    image: redis:8-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    ports:
+      - "${REDIS_HOST_PORT:-56380}:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  storage:
+    image: quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z
+    command: ["server", "/data", "--console-address", ":9001"]
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-jantok_local}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-jantok_local_storage_secret}
+    ports:
+      - "${MINIO_API_HOST_PORT:-9000}:9000"
+      - "${MINIO_CONSOLE_HOST_PORT:-9001}:9001"
+    volumes:
+      - storage_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+    restart: unless-stopped
+
+  storage-init:
+    image: quay.io/minio/mc:RELEASE.2025-08-13T08-35-41Z
+    depends_on:
+      storage:
+        condition: service_healthy
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-jantok_local}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-jantok_local_storage_secret}
+      S3_BUCKET: ${S3_BUCKET:-jantok-local}
+    entrypoint:
+      - /bin/sh
+      - -ec
+      - |
+        mc alias set local http://storage:9000 "$${MINIO_ROOT_USER}" "$${MINIO_ROOT_PASSWORD}"
+        mc mb --ignore-existing "local/$${S3_BUCKET}"
+        mc anonymous set none "local/$${S3_BUCKET}"
+    restart: "no"
+
+  backend:
+    build:
+      context: ./jantok-backend
+    environment:
+      APP_ENV: ${APP_ENV:-local}
+      PORT: 3000
+      DATABASE_URL: postgresql://${POSTGRES_USER:-jantok}:${POSTGRES_PASSWORD:-jantok_local_only}@postgres:5432/${POSTGRES_DB:-jantok}?schema=public
+      REDIS_URL: redis://redis:6379/0
+      S3_ENDPOINT: http://storage:9000
+      S3_REGION: ${S3_REGION:-us-east-1}
+      S3_BUCKET: ${S3_BUCKET:-jantok-local}
+      S3_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID:-jantok_local}
+      S3_SECRET_ACCESS_KEY: ${S3_SECRET_ACCESS_KEY:-jantok_local_storage_secret}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000}
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:-local-access-secret-change-before-deploy-32-bytes}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-local-refresh-secret-change-before-deploy-32-bytes}
+      SESSION_SECRET: ${SESSION_SECRET:-local-session-secret-change-before-deploy-32-bytes}
+      JWT_ACCESS_TTL_SECONDS: ${JWT_ACCESS_TTL_SECONDS:-900}
+      JWT_REFRESH_TTL_SECONDS: ${JWT_REFRESH_TTL_SECONDS:-2592000}
+      OTP_PROVIDER_MODE: ${OTP_PROVIDER_MODE:-local}
+      OTP_HASH_SECRET: ${OTP_HASH_SECRET:-local-otp-hash-secret-change-before-deploy-32-bytes}
+      OTP_DEV_INBOX_TOKEN: ${OTP_DEV_INBOX_TOKEN:-local-dev-inbox-token-change-before-sharing}
+      OTP_LOCAL_ALLOWED_PHONES: ${OTP_LOCAL_ALLOWED_PHONES:-+77000000001,+77000000002,+77000000003,+77000000004}
+      OTP_CODE_LENGTH: ${OTP_CODE_LENGTH:-6}
+      OTP_TTL_SECONDS: ${OTP_TTL_SECONDS:-300}
+      OTP_RESEND_SECONDS: ${OTP_RESEND_SECONDS:-60}
+      OTP_MAX_ATTEMPTS: ${OTP_MAX_ATTEMPTS:-5}
+      OTP_RATE_LIMIT_WINDOW_SECONDS: ${OTP_RATE_LIMIT_WINDOW_SECONDS:-3600}
+      OTP_RATE_LIMIT_PER_PHONE: ${OTP_RATE_LIMIT_PER_PHONE:-5}
+      OTP_RATE_LIMIT_PER_IP: ${OTP_RATE_LIMIT_PER_IP:-20}
+      OTP_RATE_LIMIT_PER_DEVICE: ${OTP_RATE_LIMIT_PER_DEVICE:-10}
+      PII_ENCRYPTION_KEY: ${PII_ENCRYPTION_KEY:-000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f}
+      LOCAL_DEMO_ADMIN_PHONES: ${LOCAL_DEMO_ADMIN_PHONES:-+77000000003,+77000000004}
+      DEMO_SEED_ENABLED: ${DEMO_SEED_ENABLED:-false}
+      SUPER_ADMIN_PHONE_1: ${SUPER_ADMIN_PHONE_1:-}
+      SUPER_ADMIN_PHONE_2: ${SUPER_ADMIN_PHONE_2:-}
+      PAYMENT_PROVIDER_MODE: ${PAYMENT_PROVIDER_MODE:-local}
+      PAYMENT_SIMULATOR_WEBHOOK_SECRET: ${PAYMENT_SIMULATOR_WEBHOOK_SECRET:-local-payment-webhook-secret-change-before-sharing}
+      FISCALIZATION_PROVIDER_MODE: ${FISCALIZATION_PROVIDER_MODE:-local}
+      PAYMENT_MAINTENANCE_INTERVAL_SECONDS: ${PAYMENT_MAINTENANCE_INTERVAL_SECONDS:-60}
+      PUSH_PROVIDER_MODE: ${PUSH_PROVIDER_MODE:-local}
+      DELIVERY_PROVIDER_MODE: ${DELIVERY_PROVIDER_MODE:-local}
+      DELIVERY_SIMULATOR_WEBHOOK_SECRET: ${DELIVERY_SIMULATOR_WEBHOOK_SECRET:-local-delivery-webhook-secret-change-before-sharing}
+      DELIVERY_MAINTENANCE_INTERVAL_SECONDS: ${DELIVERY_MAINTENANCE_INTERVAL_SECONDS:-60}
+      DELIVERY_PICKUP_ADDRESS: ${DELIVERY_PICKUP_ADDRESS:-JANTOK DEMO KITCHEN}
+      DELIVERY_PICKUP_LATITUDE: ${DELIVERY_PICKUP_LATITUDE:-51.1282}
+      DELIVERY_PICKUP_LONGITUDE: ${DELIVERY_PICKUP_LONGITUDE:-71.4304}
+    command: ["/bin/sh", "-ec", "npm run db:migrate:deploy && node dist/main.js"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      storage-init:
+        condition: service_completed_successfully
+    ports:
+      - "${BACKEND_HOST_PORT:-8080}:3000"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/api/v1/health/ready').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 4s
+      retries: 30
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: ./jantok-backend
+    environment:
+      APP_ENV: ${APP_ENV:-local}
+      REDIS_URL: redis://redis:6379/0
+      DATABASE_URL: postgresql://${POSTGRES_USER:-jantok}:${POSTGRES_PASSWORD:-jantok_local_only}@postgres:5432/${POSTGRES_DB:-jantok}?schema=public
+      S3_ENDPOINT: http://storage:9000
+      S3_REGION: ${S3_REGION:-us-east-1}
+      S3_BUCKET: ${S3_BUCKET:-jantok-local}
+      S3_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID:-jantok_local}
+      S3_SECRET_ACCESS_KEY: ${S3_SECRET_ACCESS_KEY:-jantok_local_storage_secret}
+      JWT_ACCESS_SECRET: ${JWT_ACCESS_SECRET:-local-access-secret-change-before-deploy-32-bytes}
+      JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-local-refresh-secret-change-before-deploy-32-bytes}
+      SESSION_SECRET: ${SESSION_SECRET:-local-session-secret-change-before-deploy-32-bytes}
+      JWT_ACCESS_TTL_SECONDS: ${JWT_ACCESS_TTL_SECONDS:-900}
+      JWT_REFRESH_TTL_SECONDS: ${JWT_REFRESH_TTL_SECONDS:-2592000}
+      OTP_PROVIDER_MODE: ${OTP_PROVIDER_MODE:-local}
+      OTP_HASH_SECRET: ${OTP_HASH_SECRET:-local-otp-hash-secret-change-before-deploy-32-bytes}
+      OTP_DEV_INBOX_TOKEN: ${OTP_DEV_INBOX_TOKEN:-local-dev-inbox-token-change-before-sharing}
+      OTP_LOCAL_ALLOWED_PHONES: ${OTP_LOCAL_ALLOWED_PHONES:-+77000000001,+77000000002,+77000000003,+77000000004}
+      OTP_CODE_LENGTH: ${OTP_CODE_LENGTH:-6}
+      OTP_TTL_SECONDS: ${OTP_TTL_SECONDS:-300}
+      OTP_RESEND_SECONDS: ${OTP_RESEND_SECONDS:-60}
+      OTP_MAX_ATTEMPTS: ${OTP_MAX_ATTEMPTS:-5}
+      OTP_RATE_LIMIT_WINDOW_SECONDS: ${OTP_RATE_LIMIT_WINDOW_SECONDS:-3600}
+      OTP_RATE_LIMIT_PER_PHONE: ${OTP_RATE_LIMIT_PER_PHONE:-5}
+      OTP_RATE_LIMIT_PER_IP: ${OTP_RATE_LIMIT_PER_IP:-20}
+      OTP_RATE_LIMIT_PER_DEVICE: ${OTP_RATE_LIMIT_PER_DEVICE:-10}
+      PII_ENCRYPTION_KEY: ${PII_ENCRYPTION_KEY:-000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f}
+      LOCAL_DEMO_ADMIN_PHONES: ${LOCAL_DEMO_ADMIN_PHONES:-+77000000003,+77000000004}
+      SUPER_ADMIN_PHONE_1: ${SUPER_ADMIN_PHONE_1:-}
+      SUPER_ADMIN_PHONE_2: ${SUPER_ADMIN_PHONE_2:-}
+      PAYMENT_PROVIDER_MODE: ${PAYMENT_PROVIDER_MODE:-local}
+      PAYMENT_SIMULATOR_WEBHOOK_SECRET: ${PAYMENT_SIMULATOR_WEBHOOK_SECRET:-local-payment-webhook-secret-change-before-sharing}
+      FISCALIZATION_PROVIDER_MODE: ${FISCALIZATION_PROVIDER_MODE:-local}
+      PAYMENT_MAINTENANCE_INTERVAL_SECONDS: ${PAYMENT_MAINTENANCE_INTERVAL_SECONDS:-60}
+      DELIVERY_PROVIDER_MODE: ${DELIVERY_PROVIDER_MODE:-local}
+      DELIVERY_SIMULATOR_WEBHOOK_SECRET: ${DELIVERY_SIMULATOR_WEBHOOK_SECRET:-local-delivery-webhook-secret-change-before-sharing}
+      DELIVERY_MAINTENANCE_INTERVAL_SECONDS: ${DELIVERY_MAINTENANCE_INTERVAL_SECONDS:-60}
+      PUSH_PROVIDER_MODE: ${PUSH_PROVIDER_MODE:-local}
+    command: ["node", "dist/worker.js"]
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+  admin:
+    build:
+      context: ./jantok-admin
+      args:
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8080/api/v1}
+    environment:
+      NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://localhost:8080/api/v1}
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "${ADMIN_HOST_PORT:-3000}:3000"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 5s
+      timeout: 4s
+      retries: 20
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:
+  storage_data:

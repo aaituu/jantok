@@ -1,0 +1,42 @@
+{"id":"T01","status":"passed","command":"./scripts/verify-stage1-e2e.sh","evidence":"OTP expiry, one-time use, attempt and rate limits passed."}
+{"id":"T02","status":"passed","command":"./scripts/verify-stage1-e2e.sh","evidence":"Two sessions, refresh rotation and reuse revocation passed."}
+{"id":"T04","status":"passed","command":"./scripts/verify-stage1-e2e.sh + stage2 quote","evidence":"Adult/child profiles stayed separate and quote totals reconciled."}
+{"id":"T05","status":"passed","command":"./scripts/verify-stage1-e2e.sh","evidence":"Child allergen blocked only the affected member; adult remained safe."}
+{"id":"T06","status":"passed","command":"./scripts/verify-stage1-e2e.sh","evidence":"NOT_ANSWERED allergy declaration was rejected by backend."}
+{"id":"T07","status":"passed","command":"./scripts/verify-stage2-e2e.sh","evidence":"Seven-day published menu and slot-scoped alternatives passed."}
+{"id":"T09","status":"passed","command":"./scripts/verify-stage2-e2e.sh","evidence":"Server-side start eligibility and no-today subscription creation passed."}
+{"id":"T11","status":"passed","command":"./scripts/verify-stage2-e2e.sh","evidence":"Skip/pause preserved 30 planned paid days and replay was idempotent."}
+{"id":"T12","status":"passed","command":"./scripts/verify-stage2-e2e.sh","evidence":"Pause span and immutable executed-date rules passed."}
+{"id":"T13","status":"passed","command":"./scripts/verify-stage2-e2e.sh","evidence":"Added-member proration used eligible remaining days and explicit rounding."}
+{"id":"T14","status":"passed","command":"./scripts/verify-stage2-e2e.sh","evidence":"Guest was allocated only to paid selected dates in the same daily orders."}
+{"id":"T15","status":"passed","command":"./scripts/verify-stage2-e2e.sh","evidence":"Meal selection kept recipe/price snapshots and rejected unsafe changes."}
+{"id":"T25","status":"passed","command":"./scripts/verify-stage2-e2e.sh + verify-stage6-e2e.sh","evidence":"Daily generation and kitchen revision/lock remained idempotent."}
+{"id":"T26","status":"passed","command":"./scripts/verify-stage6-e2e.sh","evidence":"Production variants and ingredient aggregation reconciled."}
+{"id":"T27","status":"passed","command":"./scripts/verify-stage6-e2e.sh","evidence":"Incomplete packing was blocked; label revision/person matched."}
+{"id":"T28","status":"passed","command":"./scripts/verify-stage6-e2e.sh","evidence":"Receipt/production/waste/correction movements and replay passed."}
+{"id":"T29","status":"passed","command":"./scripts/verify-stage6-e2e.sh","evidence":"Frozen costs, unit conversion and non-duplicated waste totals passed."}
+{"id":"T10","status":"passed","command":"./scripts/verify-stage3-e2e.sh","evidence":"Authoritative payment, duplicate webhook and restart replay passed."}
+{"id":"T21","status":"passed","command":"./scripts/verify-stage3-e2e.sh","evidence":"Before-delivery, seven-day and admin compensation paths differed correctly."}
+{"id":"T22","status":"passed","command":"./scripts/verify-stage3-e2e.sh + payment-policy.spec.ts","evidence":"Refund caps, partial state and bonus restoration passed."}
+{"id":"T23","status":"passed","command":"./scripts/verify-stage3-e2e.sh + payment-policy.spec.ts","evidence":"Renewal schedule and restart-safe charge idempotency passed."}
+{"id":"T16","status":"passed","command":"./scripts/verify-stage4-e2e.sh","evidence":"Recurring add-on allocation moved on skip and partial refund replayed once."}
+{"id":"T17","status":"passed","command":"./scripts/verify-stage4-e2e.sh","evidence":"Promo, bonus and cash order reconciled; zero-cash checkout skipped bank."}
+{"id":"T18","status":"passed","command":"./scripts/verify-stage4-e2e.sh","evidence":"Two concurrent checkout keys for one bonus hold produced one purchase and one conflict; ledger balance remained immutable."}
+{"id":"T19","status":"passed","command":"./scripts/verify-stage4-e2e.sh","evidence":"Welcome/referral qualification and duplicate webhook dedupe passed."}
+{"id":"T20","status":"passed","command":"./scripts/verify-stage4-e2e.sh","evidence":"Two households racing for the final promo slot produced one reservation; cancellation released it for retry."}
+{"id":"T24","status":"passed","command":"./scripts/verify-stage4-e2e.sh","evidence":"CLUB used qualifying paid cycles; no automatic month-12 grant existed."}
+{"id":"T30","status":"passed","command":"./scripts/verify-stage5-e2e.sh","evidence":"Scheduled dispatch and provider idempotency prevented duplicate delivery."}
+{"id":"T31","status":"passed","command":"./scripts/verify-stage5-e2e.sh","evidence":"Unknown/late/failure provider states did not produce false delivery."}
+{"id":"T32","status":"passed","command":"./scripts/verify-stage5-e2e.sh","evidence":"Missing ETA/contact stayed null and reassignment refreshed contact."}
+{"id":"T33","status":"passed","command":"./scripts/verify-stage5-e2e.sh","evidence":"Polygon, five-address limit and immutable address snapshot passed."}
+{"id":"T03","status":"passed","command":"./scripts/verify-stage1-e2e.sh + verify-stage3/5/7-e2e.sh","evidence":"Cross-user member, purchase return/refund, delivery tracking, attachment and export access was denied without disclosing the resource."}
+{"id":"T34","status":"passed","command":"./scripts/verify-stage7-e2e.sh","evidence":"Support messages/attachment ownership and persisted history passed."}
+{"id":"T35","status":"passed","command":"./scripts/verify-stage7-e2e.sh","evidence":"Review publish/moderate/delete rating and audit paths passed."}
+{"id":"T36","status":"passed","command":"./scripts/verify-stage7-e2e.sh","evidence":"Scoped staff roles allowed assigned resources and denied finance."}
+{"id":"T37","status":"passed","command":"./scripts/verify-stage7-e2e.sh","evidence":"Privileged exception required permission/reason and emitted audit."}
+{"id":"T38","status":"passed","command":"./scripts/verify-stage7-e2e.sh + verify-stage2-e2e.sh","evidence":"Settings changed future behavior without rewriting paid snapshots."}
+{"id":"T39","status":"passed","command":"./scripts/verify-stage7-e2e.sh","evidence":"Analytics CSV/XLSX totals, escaping, timezone and filters reconciled."}
+{"id":"T41","status":"passed","command":"./scripts/verify-stage9-e2e.sh; docker compose restart backend worker; compare financial/fulfillment/inventory fingerprint","evidence":"API and worker recovered; immutable effect counts stayed 1:1:30:1:4:1:1:2:2:0."}
+{"id":"T08","status":"passed","command":"cd jantok-backend && npm test -- --run","evidence":"13:00/14:00/15:00 cutoffs passed before/exact/after with server timezone fixtures."}
+{"id":"T42","status":"passed","command":"cd jantok-backend && npm test -- --run","evidence":"Production rejected simulator modes/demo seed; OTP inbox and payment/delivery simulator routes returned not-found guards."}
+{"id":"T40","status":"passed","command":"cd jantok-mobile && flutter test && flutter build apk --debug --flavor dev --target-platform android-arm64","evidence":"kk/ru/en widget/golden suite and small-screen/offline states passed; APK built."}
